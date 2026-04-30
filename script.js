@@ -27,8 +27,10 @@ filteredData=[...data];
 populateLists();
 loadSaved();
 // 🔥 SAFE SYNC: only run when NOT frozen
+// 🔥 ROOT FIX: sync ONLY ONCE, then never depend again
 if(!isFrozen){
 loadMainList();
+
 }
 renderLeft();
 renderRight();
@@ -43,6 +45,12 @@ function loadMainList(){
 // 🔥 IMPORTANT FIX: only ADD, never REMOVE existing preferences
 
 let main = JSON.parse(localStorage.getItem("mainList")||"[]");
+
+// 🔥 HARD FIX: ignore empty or cleared mainList
+if(!main.length) return;
+
+// 🔥 ALSO IGNORE if mainList suddenly reduced (UNFILTER case)
+if(main.length < preferences.length) return;
 
 main.forEach((m,i)=>{
 
@@ -94,7 +102,6 @@ function renderLeft(){
 leftTable.innerHTML="";
 let last="";
 
-let main = JSON.parse(localStorage.getItem("mainList")||"[]");
 
 filteredData.forEach(item=>{
 
