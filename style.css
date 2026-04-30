@@ -1,0 +1,210 @@
+body{
+font-family:Arial;
+margin:0;
+padding:0;
+
+/* FIXED LAYOUT WIDTH */
+min-width:1100px;
+
+background:linear-gradient(-45deg,#FFA64D,#FFA64D,#FFA64D,#FFA64D);
+background-size:400% 400%;
+animation:skyMove 15s infinite linear;
+}
+
+html,body{
+overflow-x:auto;
+}
+
+@keyframes skyMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.header{
+text-align:center;
+margin-top:50px;
+font-size:34px;
+font-weight:bold;
+text-decoration:underline;
+}
+
+.search-row{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-top:60px;
+align-items:center;
+position:relative;
+
+/* SPACE FOR ABSOLUTE BUTTONS */
+padding-left:170px;
+padding-right:170px;
+box-sizing:border-box;
+}
+
+#downloadBtn{
+position:absolute;
+right:40px;
+background:#b3003c;
+color:white;
+border:none;
+padding:8px 15px;
+font-weight:bold;
+cursor:pointer;
+border-radius:4px;
+}
+
+.top-buttons{
+text-align:center;
+margin:20px;
+}
+
+.tables{
+display:flex;
+justify-content:space-around;
+padding:10px;
+margin-top:20px;
+}
+
+.left,.right{
+width:45%;
+}
+
+.tableTitle{
+text-align:center;
+font-weight:bold;
+text-decoration:underline;
+}
+
+#availableCount{
+color:red;
+font-weight:bold;
+font-size:16px;
+}
+
+.filledCount{
+color:red;
+font-weight:bold;
+font-size:16px;
+}
+
+table{
+border:2px solid #222;
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#444;
+color:white;
+padding:8px;
+}
+
+td{
+border:2px solid #333;
+padding:6px;
+text-align:center;
+}
+
+.addBtn{
+background:red;
+color:white;
+border:none;
+padding:5px 10px;
+cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+.deleteBtn{
+background:red;
+color:white;
+border:none;
+padding:5px 10px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+#searchBtn{
+background:#007bff;
+color:white;
+border:none;
+padding:6px 12px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+#clearFilters{
+background:red;
+color:white;
+border:none;
+padding:8px 15px;
+}
+
+.footer{
+margin-top:60px;
+text-align:center;
+}
+
+.line{
+border-top:3px solid black;
+margin:25px 0;
+}
+
+/* CHANGED FONT TO SIMPLE READABLE */
+.footerText{
+font-family:Arial;
+font-size:20px;
+font-weight:bold;
+margin:15px 0;
+}
+
+/* GLOBAL TEXT FIX */
+button {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+input {
+  color: black !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+select {
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+} 
+
+#undoBtn{
+position:fixed;
+left:10px;
+top:50%;
+transform:translateY(-50%);
+
+width:60px;
+height:60px;
+border-radius:50%;
+
+background:#006400;
+color:white;
+font-size:28px;
+
+border:none;
+cursor:pointer;
+z-index:9999;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
+#undoBtn:hover{
+background:#008000;
+}
+
+/* 🔒 LOCK ICON STYLE */
+.locked-btn {
+  position: relative;
+}
+
+.locked-btn::after {
+  content: "🔒";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 14px;
+}

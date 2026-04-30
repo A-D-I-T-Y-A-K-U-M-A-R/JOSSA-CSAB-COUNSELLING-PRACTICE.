@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta name="google-site-verification" content="gDsCbwrK5gr-SvLQu1cZsDB5o2fw68ACuIYy0Aoff8M" />
+
+<title>JoSAA/CSAB Choice Filling Simulator | Practice Counselling</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="JoSAA/CSAB Choice Filling Simulator for JEE aspirants. Practice JoSAA and CSAB counselling and simulate IIT, NIT, IIIT and GFTI choice filling before the real counselling process.">
+
+<meta name="keywords" content="JoSAA simulator, CSAB simulator, JoSAA choice filling simulator, CSAB counselling practice, IIT NIT IIIT counselling simulator">
+
+<meta name="robots" content="index, follow">
+<meta name="author" content="Aditya Kumar Singh">
+
+<link rel="stylesheet" href="style.css">
+
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "WebApplication",
+"name": "JoSAA/CSAB Choice Filling Simulator",
+"url": "https://a-d-i-t-y-a-k-u-m-a-r.github.io/JOSSA-CSAB-COUNSELLING-PRACTICE/",
+"description": "Practice JoSAA and CSAB counselling choice filling for IIT, NIT, IIIT and GFTI before the real counselling process.",
+"applicationCategory": "EducationalApplication",
+"operatingSystem": "Web"
+}
+</script>
+
+</head>
+
+<body id="top">
+
+<h1 class="header">JoSAA/CSAB Choice Filling Simulator</h1>
+  <div style="height:50px;"></div>
+
+<p style="text-align:center;font-size:16px;margin-top:10px;">
+Practice JoSAA and CSAB Counselling (THIS KIT CONTAIN ALL YOU NEED FOR JOSAA AND CSAB COUNSEELING ALL FREE), simulate IIT, NIT, IIIT and GFTI choice filling before the real counselling process.
+</p>
+
+<div style="text-align:center;margin-top:30px;font-size:14px">
+
+ <a href="https://youtu.be/2bb9YC7dU7o?si=YuEph4KafE71J-g4" target="_blank"> 
+<button style="background:yellow;color:black;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:bold;box-shadow:0 0 10px rgba(0,0,0,0.4);">
+HOW_TO_USE_IT
+</button>
+</a>
+
+  
+
+
+<=  <strong><u> CLICK   [HOW_TO_USE_IT]   BUTTON TO KNOW HOW TO USE THIS TOOL. </u></strong>  =>
+  
+<!-- 🔥 ONLY THIS BUTTON ADDED -->
+<a href="preferred.html">
+<button style="margin-left:10px;top:230px;background:#800000;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);">
+PREFERRED_CHOICES
+</button>
+</a>
+
+<a href="#footer">
+<button style="margin-left:10px;top:230px;background:darkgreen;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);">
+FAQs
+</button>
+</a>
+
+</div>
+ 
+
+<div style="height:20px;"></div>
+<div class="line"></div>
+<div style="height:40px;"></div>
+
+<div class="search-row">
+
+<button id="deleteAllBtn" style="position:absolute;left:40px;background:red;color:white;border:none;padding:8px 15px;font-weight:bold;cursor:pointer;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,0.4);">
+DELETE_ALL_FILLED_CHOICES
+</button>
+
+<select id="typeSearch" style="cursor:pointer;">
+<option value="">Institute Type</option>
+<option value="IIT">IIT</option>
+<option value="NIT">NIT</option>
+<option value="IIIT">IIIT</option>
+<option value="GFTI">GFTI</option>
+</select>
+
+<input list="instList" id="instSearch" placeholder="Institute Name">
+<datalist id="instList"></datalist>
+
+<input list="branchList" id="branchSearch" placeholder="Branch">
+<datalist id="branchList"></datalist>
+
+<button id="searchBtn" style="cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);">Search</button>
+
+<button id="downloadBtn" style="box-shadow:0 0 10px rgba(0,0,0,0.4);" onclick="downloadPDF()">DOWNLOAD_TABLE</button>
+</div>
+
+<div class="top-buttons">
+<button id="clearFilters" style="cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);">Clear_All_Filters</button>
+</div>
+
+
+<div style="height:15px;"></div>
+<div class="line"></div>
+<div style="height:40px;"></div>
+
+
+<div class="tables">
+
+<div class="left">
+
+<h2 class="tableTitle">Available Choices</h2>
+<p id="availableCount"></p>
+
+<table id="leftTable">
+<thead>
+<tr>
+<th>Institute</th>
+<th>Branch</th>
+<th>Choice No</th>
+<th>Add</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<div class="right">
+
+<h2 class="tableTitle">Filled Choices</h2>
+
+<div class="prefInfo">
+<span class="filledCount"></span>
+</div>
+
+<table id="rightTable">
+<thead>
+<tr>
+<th>Institute</th>
+<th>Branch</th>
+<th>Choice No</th>
+<th>Delete</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="footer" class="footer">
+
+<div class="line"></div>
+
+<div class="footerText">
+  MADE__BY__ADITYA__KUMAR__SINGH
+</div>
+
+<div class="line"></div>
+
+<a href="#top">
+<button style="position:fixed;right:40px;bottom:20px;background:darkgreen;color:white;border:none;padding:10px 14px;border-radius:50%;cursor:pointer;z-index:9999;"box-shadow:0 0 10px rgba(0,0,0,0.4);>
+TOP ⬆
+</button>
+</a>
+</div>
+
+</div>
+
+<h2 style="text-align:center;margin-top:40px;text-decoration:underline;">JoSAA/CSAB Counselling Practice</h2>
+
+<div style="max-width:800px;margin:auto;font-size:16px;line-height:1.6">
+
+<p style="font-weight:bold;text-align:center;">
+Practice JoSAA and CSAB Counselling and simulate IIT, NIT, IIIT and GFTI choice filling before the real counselling process.
+</p>
+
+<p>
+This JoSAA/CSAB Choice Filling Simulator helps JEE aspirants practice counselling before filling real choices. Students can simulate different preference orders and understand how JoSAA and CSAB counselling works before the official choice filling process begins.
+</p>
+
+</div>
+
+<h2 style="text-align:center;margin-top:40px;text-decoration:underline;">FAQs</h2>
+
+<div style="max-width:900px;margin:auto;font-size:16px;line-height:1.7">
+
+<p><b>What is this website about?</b><br>
+This website is a JoSAA and CSAB choice filling simulator that helps JEE aspirants practice counselling before filling their actual choices.
+</p>
+
+<p><b>Who can use this simulator?</b><br>
+Any JEE aspirant preparing for JoSAA or CSAB counselling can use this tool to practice choice filling.
+</p>
+
+<p><b>Does this website predict admission?</b><br>
+No. This tool is only designed for practice and understanding the counselling process.
+</p>
+
+<p><b>Which institutes are included?</b><br>
+The simulator includes IITs, NITs, IIITs and GFTIs participating in JoSAA counselling.
+</p>
+
+<p><b>Is this website official?</b><br>
+No. This website is not affiliated with JoSAA, CSAB or Government of India.
+</p>
+
+</div>
+
+<div class="line"></div>
+
+<div style="height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:22px;font-weight:bold;text-decoration:underline;">
+THANK YOU FOR VISITING. BEST OF LUCK WITH YOUR COUNSELLING
+</div>
+
+<div class="line"></div>
+
+<script src="script.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
+</body>
+</html>

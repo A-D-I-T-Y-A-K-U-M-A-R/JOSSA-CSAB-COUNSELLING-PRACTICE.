@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Preferred Choices</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+#previewTable th{height:70px;}
+#previewTable td{height:50px;}
+#previewTable, #previewTable th, #previewTable td{
+border:2px solid black;
+}
+
+/* 🔥 FINAL LAYOUT FIX */
+
+.custom-search-row{
+position:relative;width:100%;height:70px;margin-top:30px;margin-bottom:30px;
+}
+
+.custom-search-row select,
+.custom-search-row input,
+.custom-search-row button{
+position:absolute;top:50%;transform:translate(-50%, -50%);padding:8px 10px;font-weight:bold;
+}
+
+/* WIDTHS */
+#instSearch{ width:18%; }
+#typeSearch{ width:14%; }
+#branchSearch{ width:14%; }
+
+/* CENTER (UNCHANGED) */
+#instSearch{
+left:50%;
+}
+
+/* TYPE (UNCHANGED FROM YOUR CURRENT PERFECT POSITION) */
+#typeSearch{
+left:calc(50% - (9% + 35px + 7%));
+}
+
+/* BRANCH (UNCHANGED) */
+#branchSearch{
+left:calc(50% + (9% + 35px + 7%));
+}
+
+/* 🔥 CLEAR BUTTON (40px gap from TYPE left edge) */
+#clearFilters{
+left:calc(
+    (50% - (9% + 35px + 7%))  /* type center */
+    - 7%                      /* move to type left edge */
+    - 40px                    /* gap */
+);
+transform:translate(-100%,-50%);
+}
+
+/* 🔥 SEARCH BUTTON (20px gap from BRANCH right edge) */
+#searchBtn{
+left:calc(
+    (50% + (9% + 35px + 7%))  /* branch center */
+    + 7%                      /* move to branch right edge */
+    + 20px                    /* gap */
+);
+transform:translate(0,-50%);
+}
+
+/* SAFE */
+.custom-search-row input,
+.custom-search-row select{
+box-sizing:border-box;
+}
+
+#rank{
+background:gold;text-align:center;font-weight:bold;
+}
+#rank::placeholder{
+color:black;opacity:1;
+}
+</style>
+
+</head>
+
+<body id="top">
+
+<button onclick="undoRemove()" id="undoBtn">⬅</button>
+
+<h1 class="header">JOSAA/CSAB PRACTICE COUNSELLING CHOICES</h1>
+
+<div style="display:flex;justify-content:flex-end;align-items:center;margin-right:150px;gap:80px;">
+
+<a href="index.html">
+<button style="padding:10px 20px;background:#800000;color:white;font-weight:bold;cursor:pointer;">
+GO_TO_CHOICE_FILLING
+</button>
+</a>
+
+<button onclick="document.getElementById('footer').scrollIntoView()"
+style="background:lime;padding:5px 10px;cursor:pointer;font-weight:bold;">
+FAQs
+</button>
+
+</div>
+<div style="height:25px;"></div>
+
+
+
+<!-- 🔥 FILTER BUTTONS (CUSTOM POSITION) -->
+<div class="line"></div>
+<div style="height:15px;"></div>
+<div style="position:relative;height:60px;margin-top:40px;margin-bottom:10px;">
+
+<!-- CENTER: GENDER -->
+<select id="genderType"
+style="position:absolute;left:50%;transform:translateX(-50%);padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;font-weight:bold;">
+    
+<option value="Gender-Neutral">Gender-Neutral</option>
+<option value="Female-only (including Supernumerary)">Female-only</option>
+</select>
+
+<!-- LEFT: SEAT TYPE (30px edge gap from gender) -->
+<select id="seatType"
+style="position:absolute;left:calc(50% - 180px);transform:translateX(-100%);padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;font-weight:bold;">
+<option value="OPEN">OPEN</option>
+<option value="OPEN (PwD)">OPEN (PwD)</option>
+<option value="EWS">EWS</option>
+<option value="EWS (PwD)">EWS (PwD)</option>
+<option value="OBC-NCL">OBC-NCL</option>
+<option value="OBC-NCL (PwD)">OBC-NCL (PwD)</option>
+<option value="SC">SC</option>
+<option value="SC (PwD)">SC (PwD)</option>
+<option value="ST">ST</option>
+<option value="ST (PwD)">ST (PwD)</option>
+
+</select>
+
+<!-- RIGHT: HOME STATE (30px edge gap from gender) -->
+<select id="homeState"
+style="position:absolute;left:calc(50% + 180px);transform:translateX(0);padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;width:160px;">
+
+<option value="Jharkhand" selected>Jharkhand</option>
+
+<!-- STATES -->
+<option>Andhra Pradesh</option>
+<option>Arunachal Pradesh</option>
+<option>Assam</option>
+<option>Bihar</option>
+<option>Chhattisgarh</option>
+<option>Goa</option>
+<option>Gujarat</option>
+<option>Haryana</option>
+<option>Himachal Pradesh</option>
+<option>Jharkhand</option>
+<option>Karnataka</option>
+<option>Kerala</option>
+<option>Madhya Pradesh</option>
+<option>Maharashtra</option>
+<option>Manipur</option>
+<option>Meghalaya</option>
+<option>Mizoram</option>
+<option>Nagaland</option>
+<option>Odisha</option>
+<option>Punjab</option>
+<option>Rajasthan</option>
+<option>Sikkim</option>
+<option>Tamil Nadu</option>
+<option>Telangana</option>
+<option>Tripura</option>
+<option>Uttar Pradesh</option>
+<option>Uttarakhand</option>
+<option>West Bengal</option>
+
+<!-- UT -->
+<option>Andaman and Nicobar Islands</option>
+<option>Chandigarh</option>
+<option>Dadra and Nagar Haveli and Daman and Diu</option>
+<option>Delhi</option>
+<option>Jammu and Kashmir</option>
+<option>Ladakh</option>
+<option>Lakshadweep</option>
+<option>Puducherry</option>
+
+</select>
+
+</div>
+
+    
+<div style="text-align:center;margin-top:40px;font-weight:bold;">
+
+<input id="rank" type="number" placeholder="ENTER_RANK" style="padding:10px;border:none">
+
+    
+<button id="addTableBtn"style="position:absolute;top:400px;right:80PX;background:#8A2BE2;color:white;padding:10px 20px;font-weight:bold;cursor:pointer;">
+ADD_TABLE
+</button>
+<br><br>
+
+<select id="exam" style="padding:10px;background:cyan;border:none;font-weight:bold;cursor:pointer;">
+<option value="">EXAM_TYPE</option>
+<option value="MAINS">JEE MAINS</option>
+<option value="ADVANCE">JEE ADVANCE</option>
+</select>
+
+<br><br>
+
+<button id="previewBtn"
+onclick="handlePreviewClick()"
+style="padding:10px 20px;background:#ff69b4;color:black;font-weight:bold;border:none;cursor:pointer;">
+SEE_PREVIEW
+</button>
+
+</div>
+
+<div style="display:flex;align-items:center;width:90%;margin:auto;margin-top:20px;position:relative;">
+
+<select id="lockStatus"
+style="position:absolute;left:0;padding:10px;border:2px solid black;font-weight:bold;background:#8B0000;color:white;cursor:pointer;">
+<option value="unlock">UNLOCKED</option>
+<option value="lock">LOCKED</option>
+</select>
+
+
+<button onclick="resetAll()"
+style="position:absolute;right:0;background:#cc0033;color:white;padding:10px 20px;font-weight:bold;cursor:pointer;">
+UNFILTER_ALL
+</button>
+
+</div>
+
+<!-- 🔥 SEARCH UI -->
+<div class="custom-search-row">
+
+<button id="clearFilters" style="cursor:pointer;">CLEAR_SEARCH</button>
+
+<select id="typeSearch" style="cursor:pointer;">
+<option value="">Institute Type</option>
+<option value="IIT">IIT</option>
+<option value="NIT">NIT</option>
+<option value="IIIT">IIIT</option>
+<option value="GFTI">GFTI</option>
+</select>
+
+<input list="instList" id="instSearch" placeholder="Institute Name">
+<datalist id="instList"></datalist>
+
+<input list="branchList" id="branchSearch" placeholder="Branch">
+<datalist id="branchList"></datalist>
+
+<button id="searchBtn" style="cursor:pointer;">SEARCH</button>
+
+</div>
+<div style="height:15px;"></div>
+<div class="line"></div>
+<div style="height:20px;"></div>
+<h2 style="text-align:center;margin-top:0px">PREVIEW</h2>
+
+<div style="width:95%;margin:auto;overflow:auto">
+<table id="previewTable">
+<tr>
+<th>REMOVE</th>
+<th>FILL TO NUMBER</th>
+<th>ADD</th>
+<th>Institute</th>
+<th>Branch</th>
+<th>JoSAA Opening</th>
+<th>JoSAA Closing</th>
+<th>JoSAA Round</th>
+<th>CSAB Opening</th>
+<th>CSAB Closing</th>
+<th>CSAB Round</th>
+</tr>
+</table>
+</div>
+<div style="height:60px;"></div>
+
+<div id="footer" class="footer">
+<div class="line"></div>
+
+<div style="height:1px;"></div>
+
+<div class="footerText">MADE__BY__ADITYA_KUMAR_SINGH</div>
+
+<div style="height:1px;"></div>
+<div class="line"></div>
+<div style="text-align:center;margin-top:40px;">
+
+<button id="cleanTableBtn"
+style="position:fixed;right:2px;bottom:5px;background:#00008B;color:white;padding:6px 14px;cursor:pointer;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.4);font-weight:bold;">
+CLEAN_TABLE
+</button>
+    
+<a href="#top">
+<button style="position:fixed;right:2px;bottom:99px;background:darkgreen;color:white;border:none;padding:10px 14px;border-radius:50%;cursor:pointer;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.4);font-weight:bold;">
+TOP ⬆
+</button>
+</a>
+</div>
+
+<div style="height:60px;"></div>
+
+<h2 style="text-align:center;margin-top:0px;text-decoration:underline;">FAQs</h2>
+
+<div style="max-width:900px;margin:auto;font-size:16px;line-height:1.7">
+<p><b>WHAT DOES THIS PAGE DO?</b><br>It generates counselling results.</p>
+<p><b>IS THIS OFFICIAL DATA OF JOSAA/CSAB COUNSELLING RESULTS?</b><br>Yes.</p>
+<p><b>THIS DATA IS OF WHICH YEAR COUNSELLING SESSIONS?</b><br>LATEST YEAR(LAST YEAR).</p>
+<p><b>IS THIS PREDICTION ACCURATE?</b><br>Yes.</p>
+<p><b>IS THIS AN OFFICIAL WEBSITE?</b><br>No.</p>
+</div>
+
+<div class="line"></div>
+</div>
+
+    
+<script src="preferred.js"></script>
+</body>
+</html>
