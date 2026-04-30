@@ -364,24 +364,29 @@ win.document.close();
 
 }
 
-const freezeBtn = document.getElementById("freezeBtn");
+const freezeSelect = document.getElementById("freezeSelect");
 
-freezeBtn.onclick = () => {
-
-isFrozen = !isFrozen;
-localStorage.setItem("freezeState", JSON.stringify(isFrozen));
-
+/* 🔥 LOAD STATE ON PAGE LOAD */
 if(isFrozen){
-
-freezeBtn.textContent = "FLOAT";
-freezeBtn.style.background = "darkgreen";
-
+freezeSelect.value = "freeze";
+freezeSelect.style.background = "darkgreen";
 }else{
-
-freezeBtn.textContent = "FREEZE";
-freezeBtn.style.background = "#8B0000";
-
+freezeSelect.value = "float";
+freezeSelect.style.background = "#8B0000";
 }
+
+/* 🔥 ON CHANGE */
+freezeSelect.onchange = () => {
+
+if(freezeSelect.value === "freeze"){
+isFrozen = true;
+freezeSelect.style.background = "darkgreen";
+}else{
+isFrozen = false;
+freezeSelect.style.background = "#8B0000";
+}
+
+localStorage.setItem("freezeState", JSON.stringify(isFrozen));
 
 renderRight();
 renderLeft();
