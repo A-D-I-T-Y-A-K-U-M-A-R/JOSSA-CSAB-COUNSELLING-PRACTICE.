@@ -26,10 +26,14 @@ data=json;
 filteredData=[...data];
 populateLists();
 loadSaved();
-loadMainList();   // 🔥 FIXED
+// 🔥 SAFE SYNC: only run when NOT frozen
+if(!isFrozen){
+loadMainList();
+}
 renderLeft();
 renderRight();
 });
+
 
 /* =========================
    LOAD MAIN LIST FROM 2ND PAGE (FIXED)
