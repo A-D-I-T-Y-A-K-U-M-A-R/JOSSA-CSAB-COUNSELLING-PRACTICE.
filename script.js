@@ -35,15 +35,13 @@ renderRight();
    LOAD MAIN LIST FROM 2ND PAGE (FIXED)
 ========================= */
 function loadMainList(){
-if(isFrozen) return;
+
+// 🔥 IMPORTANT FIX: only ADD, never REMOVE existing preferences
 
 let main = JSON.parse(localStorage.getItem("mainList")||"[]");
 
-preferences = preferences.filter(p=>{
-return !main.some(m=>m.inst===p.inst && m.branch===p.branch);
-});
-
 main.forEach((m,i)=>{
+
 
 if(preferences.some(p=>p.inst===m.inst && p.branch===m.branch)) return;
 
@@ -369,10 +367,12 @@ const freezeSelect = document.getElementById("freezeSelect");
 /* 🔥 LOAD STATE ON PAGE LOAD */
 if(isFrozen){
 freezeSelect.value = "freeze";
-freezeSelect.style.background = "darkgreen";
+freezeSelect.style.background = "#8B0000";   // 🔴 FREEZE = RED
+freezeSelect.style.color = "white";
 }else{
 freezeSelect.value = "float";
-freezeSelect.style.background = "#8B0000";
+freezeSelect.style.background = "darkgreen"; // 🟢 FLOAT = GREEN
+freezeSelect.style.color = "white";
 }
 
 /* 🔥 ON CHANGE */
@@ -380,10 +380,12 @@ freezeSelect.onchange = () => {
 
 if(freezeSelect.value === "freeze"){
 isFrozen = true;
-freezeSelect.style.background = "darkgreen";
+freezeSelect.style.background = "#8B0000";   // 🔴 FREEZE
+freezeSelect.style.color = "white";
 }else{
 isFrozen = false;
-freezeSelect.style.background = "#8B0000";
+freezeSelect.style.background = "darkgreen"; // 🟢 FLOAT
+freezeSelect.style.color = "white";
 }
 
 localStorage.setItem("freezeState", JSON.stringify(isFrozen));
