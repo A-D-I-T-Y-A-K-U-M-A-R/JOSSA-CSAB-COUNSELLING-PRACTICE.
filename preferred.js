@@ -126,19 +126,26 @@ instState = normalizeState(instState || "");
         else if(quotaRaw.includes("dasa")) return false; // ❌ remove always
 
         // 🔴 SAME STATE
-        if(instState === selectedState){
+     if(instState === selectedState){
 
-            // special states
-            if(instState === "jammu and kashmir" && (quota === "hs" || quota === "jk")) return true;
-            if(instState === "goa" && (quota === "hs" || quota === "go")) return true;
-            if(instState === "ladakh" && (quota === "hs" || quota === "la")) return true;
+    // 🔴 CHECK: does this institute have any HS row?
+    let hasHS = data.some(d => 
+        d["Institute"] === item["Institute"] &&
+        normalizeQuota(d["Quota"]).includes("hs")
+    );
 
-            // normal states
-            if(quota === "hs") return true;
+    // special states
+    if(instState === "jammu and kashmir" && (quota === "hs" || quota === "jk")) return true;
+    if(instState === "goa" && (quota === "hs" || quota === "go")) return true;
+    if(instState === "ladakh" && (quota === "hs" || quota === "la")) return true;
 
-            return false;
-        }
-
+    // 🔥 FINAL LOGIC
+    if(hasHS){
+        return quota === "hs";   // HS present → only HS
+    }else{
+        return quota === "ai";   // HS absent → allow AI
+    }
+}
         // 🔴 DIFFERENT STATE
         else{
             return (quota === "ai" || quota === "os");
