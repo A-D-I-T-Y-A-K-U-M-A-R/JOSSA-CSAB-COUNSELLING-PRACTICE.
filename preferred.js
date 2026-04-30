@@ -900,7 +900,7 @@ for(let i=0; i<validRows.length; i++){
 
     let row = validRows[i];
 
-    let addBtn = row.children[2]?.querySelector("button");
+    let addBtn = row.children[1]?.querySelector("button");
 
     if(addBtn){
 
@@ -966,9 +966,9 @@ if(last.type === "ADD"){
     rows.forEach((row,i)=>{
         if(i===0) return;
 
-        let instCell = row.children[3];
-        let branchCell = row.children[4];
-        let btn = row.children[2]?.querySelector("button");
+        let instCell = row.children[2];
+        let branchCell = row.children[3];
+        let btn = row.children[1]?.querySelector("button");
 
         if(!instCell || !branchCell || !btn) return;
 
