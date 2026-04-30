@@ -1162,7 +1162,7 @@ window.addEventListener("storage", function(e){
 
         let instCell = row.children[2];
         let branchCell = row.children[3];
-        let btn = row.children[2]?.querySelector("button");
+        let btn = row.children[1]?.querySelector("button");
 
         if(!instCell || !branchCell || !btn) return;
 
