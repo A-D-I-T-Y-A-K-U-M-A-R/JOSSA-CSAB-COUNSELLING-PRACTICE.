@@ -845,17 +845,6 @@ current = current.nextElementSibling;
 }
 
 // 🔥 DELETE ROWS BETWEEN CURRENT & NEXT SEPARATOR
-// 🔥 STORE BLOCK FOR UNDO
-let startIndex = Array.from(sep.parentNode.children).indexOf(toDelete[0]);
-
-let blockHTML = toDelete.map(r => r.outerHTML);
-
-undoStack.push({
-    type: "BLOCK_REMOVE",
-    rows: blockHTML,
-    index: startIndex
-});
-localStorage.setItem("undoStack", JSON.stringify(undoStack));
 
 // 🔥 DELETE
 toDelete.forEach(r=>r.remove());
@@ -980,32 +969,7 @@ if(last.type === "REMOVE"){
     updateRemove();
 }
 
-// 🔴 CASE 3: BLOCK REMOVE undo → restore full block
-if(last.type === "BLOCK_REMOVE"){
 
-    let table = document.querySelector("#previewTable");
-
-    let temp = document.createElement("table");
-
-    let rows = [];
-
-    last.rows.forEach(html=>{
-        temp.innerHTML = "<tbody>" + html + "</tbody>";
-        rows.push(temp.querySelector("tr"));
-    });
-
-    // 🔥 insert in correct order
-    rows.forEach((row,i)=>{
-        if(table.rows.length > last.index + i){
-            table.insertBefore(row, table.rows[last.index + i]);
-        }else{
-            table.appendChild(row);
-        }
-    });
-
-    saveTable();
-    updateRemove();
-}
 
 // 🔴 CASE 2: ADD undo → remove from mainList
 if(last.type === "ADD"){
