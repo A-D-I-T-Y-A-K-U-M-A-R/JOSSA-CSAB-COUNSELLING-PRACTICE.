@@ -1,5 +1,5 @@
 let preferences=[];
-
+let isFrozen = JSON.parse(localStorage.getItem("freezeState")) || false;
 const leftTable=document.querySelector("#leftTable tbody");
 const rightTable=document.querySelector("#rightTable tbody");
 
@@ -35,6 +35,7 @@ renderRight();
    LOAD MAIN LIST FROM 2ND PAGE (FIXED)
 ========================= */
 function loadMainList(){
+if(isFrozen) return;
 
 let main = JSON.parse(localStorage.getItem("mainList")||"[]");
 
@@ -142,6 +143,7 @@ availableCount.textContent="Total Available Choices: "+filteredData.length;
    ADD PREF
 ========================= */
 function addPref(inst,branch,choice){
+if(isFrozen) return;
 
 if(preferences.some(p=>p.inst===inst && p.branch===branch)) return;
 
@@ -174,17 +176,26 @@ row.innerHTML=`
 <td>${p.inst}</td>
 <td>${p.branch}</td>
 <td><input type="number" value="${i+1}" min="1"></td>
-<td><button class="deleteBtn">Delete</button></td>
+<td><button class="deleteBtn" ${isFrozen?"disabled":""}>Delete</button></td>
 `;
 
 row.querySelector(".deleteBtn").onclick=()=>{
+
+if(isFrozen) return;
+
 preferences.splice(i,1);
 renderRight();
 renderLeft();
 autoSave();
+
 };
 
 row.querySelector("input").onchange=(e)=>{
+
+if(isFrozen){
+renderRight();
+return;
+}
 
 let n=parseInt(e.target.value);
 
@@ -266,6 +277,8 @@ renderLeft();
 ========================= */
 document.getElementById("deleteAllBtn").onclick=()=>{
 
+if(isFrozen) return;
+
 preferences=[];
 localStorage.removeItem("mainList");
 renderRight();
@@ -273,7 +286,6 @@ renderLeft();
 autoSave();
 
 };
-
 /* =========================
    DOWNLOAD (ONLY MODIFIED PART)
 ========================= */
@@ -351,3 +363,27 @@ win.document.write(html);
 win.document.close();
 
 }
+
+const freezeBtn = document.getElementById("freezeBtn");
+
+freezeBtn.onclick = () => {
+
+isFrozen = !isFrozen;
+localStorage.setItem("freezeState", JSON.stringify(isFrozen));
+
+if(isFrozen){
+
+freezeBtn.textContent = "FLOAT";
+freezeBtn.style.background = "darkgreen";
+
+}else{
+
+freezeBtn.textContent = "FREEZE";
+freezeBtn.style.background = "#8B0000";
+
+}
+
+renderRight();
+renderLeft();
+
+};
