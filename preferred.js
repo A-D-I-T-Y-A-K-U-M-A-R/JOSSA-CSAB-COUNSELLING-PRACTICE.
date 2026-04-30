@@ -848,17 +848,9 @@ current = current.nextElementSibling;
 // 🔴 ALSO include separator itself
 toDelete.push(sep);
 
-// 🔴 REMOVE RELATED UNDO ENTRIES
-undoStack = undoStack.filter(entry => {
-
-    if(entry.type !== "REMOVE") return true;
-
-    // check if entry html matches any row in block
-    return !toDelete.some(r => r.outerHTML === entry.html);
-
-});
-
-localStorage.setItem("undoStack", JSON.stringify(undoStack));
+// 🔴 FULL UNDO RESET (BLOCK = PERMANENT DELETE)
+undoStack = [];
+localStorage.removeItem("undoStack");
 
 // 🔥 DELETE FROM DOM
 toDelete.forEach(r=>r.remove());
