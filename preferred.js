@@ -1009,7 +1009,7 @@ if(last.type === "ADD"){
 /* 🔥 FINAL EVENT SYSTEM (FIXED) */
 document.addEventListener("click", function(e){
 
-if(e.target.innerText.trim() === "REMOVE"){
+if(e.target.innerText.trim().includes("REMOVE")){
 if(removeLocked) return;
 
 let row = e.target.closest("tr");
