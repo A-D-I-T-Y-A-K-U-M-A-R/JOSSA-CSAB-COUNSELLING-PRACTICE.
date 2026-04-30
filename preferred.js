@@ -502,7 +502,7 @@ let n = inst.toLowerCase();
 if(n.includes("indian institute of technology")) return "IIT";
 if(n.includes("national institute of technology")) return "NIT";
 if(n.includes("indian institute of information technology")) return "IIIT";
- if(n.includes("birla institute of technology, mesra"))return "OTHER";
+return "OTHER"; 
 //          if(n.includes("birla institute of technology, mesra"))return "OTHER";   (ONLY GFTI AS BIT MEESRA)
 //            return "OTHER";                   (ALL GFTI)
   
