@@ -626,11 +626,6 @@ previewBtn.disabled = removeLocked;
 previewBtn.classList.toggle("locked-btn", removeLocked);
 }
 
-let resetBtn = document.querySelector("button[onclick='resetAll()']");
-if(resetBtn){
-resetBtn.disabled = removeLocked;
-resetBtn.classList.toggle("locked-btn", removeLocked);
-}
 
 }
 
@@ -872,14 +867,7 @@ saveTable();
 updateRemove();
 };
 
-/* RESET */
-function resetAll(){
-rank.value="";
-exam.value="";
-previewTable.innerHTML="";
-localStorage.clear();
-undoStack = [];
-}
+
 
 /* 🔥 AUTO ADD TABLE SYSTEM */
 
