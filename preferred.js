@@ -129,7 +129,7 @@ instState = normalizeState(instState || "");
      if(instState === selectedState){
 
     // 🔴 CHECK: does this institute have any HS row?
-    let hasHS = data.some(d => 
+   let hasHS = ORIGINAL_DATA.some(d => 
         d["Institute"] === item["Institute"] &&
         normalizeQuota(d["Quota"]).includes("hs")
     );
