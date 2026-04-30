@@ -111,7 +111,7 @@ last=item.inst;
 let row=document.createElement("tr");
 
 let already =
-preferences.some(p=>p.inst===item.inst && p.branch===item.branch)
+preferences.some(p=>p.inst===item.inst && p.branch===item.branch);
 
 row.innerHTML=`
 <td>${item.inst}</td>
