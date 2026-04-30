@@ -646,7 +646,7 @@ rows.forEach((row,i)=>{
 
     let instCell = row.children[3];
     let branchCell = row.children[4];
-    let btn = row.children[2]?.querySelector("button");
+    let btn = row.children[1]?.querySelector("button");
 
     if(!instCell || !branchCell || !btn) return;
 
