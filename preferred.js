@@ -816,8 +816,53 @@ data.forEach(r=>{
 
 if(last && last!==r[0]){
 let sep=document.createElement("tr");
-sep.innerHTML="<td colspan='11' style='height:10px;background:#eee'></td>";
+sep.setAttribute("data-separator","true");
+
+sep.innerHTML=`
+<td colspan='11' style='height:40px;background:#eee;position:relative;'>
+
+<button class="removeBlockBtn" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:red;color:white;border:none;padding:5px 10px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
+">
+REMOVE_COLLEGE_BLOCK
+</button>
+
+</td>
+`;
 previewTable.appendChild(sep);
+sep.querySelector(".removeBlockBtn").onclick = function(){
+
+let current = sep.nextElementSibling;
+let toDelete = [];
+
+while(current){
+
+if(current.getAttribute && current.getAttribute("data-separator")==="true"){
+break;
+}
+
+toDelete.push(current);
+current = current.nextElementSibling;
+}
+
+// 🔥 DELETE ROWS BETWEEN CURRENT & NEXT SEPARATOR
+// 🔥 STORE BLOCK FOR UNDO
+let startIndex = Array.from(sep.parentNode.children).indexOf(toDelete[0]);
+
+let blockHTML = toDelete.map(r => r.outerHTML);
+
+undoStack.push({
+    type: "BLOCK_REMOVE",
+    rows: blockHTML,
+    index: startIndex
+});
+localStorage.setItem("undoStack", JSON.stringify(undoStack));
+
+// 🔥 DELETE
+toDelete.forEach(r=>r.remove());
+
+// 🔥 SAVE
+saveTable();
+};
 }
 
 last=r[0];
@@ -919,7 +964,6 @@ localStorage.setItem("undoStack", JSON.stringify(undoStack));
 
 // 🔴 CASE 1: REMOVE undo → restore row
 if(last.type === "REMOVE"){
-
     let temp = document.createElement("table");
     temp.innerHTML = "<tbody>" + last.html + "</tbody>";
 
@@ -931,6 +975,33 @@ if(last.type === "REMOVE"){
     }else{
         table.appendChild(restoredRow);
     }
+
+    saveTable();
+    updateRemove();
+}
+
+// 🔴 CASE 3: BLOCK REMOVE undo → restore full block
+if(last.type === "BLOCK_REMOVE"){
+
+    let table = document.querySelector("#previewTable");
+
+    let temp = document.createElement("table");
+
+    let rows = [];
+
+    last.rows.forEach(html=>{
+        temp.innerHTML = "<tbody>" + html + "</tbody>";
+        rows.push(temp.querySelector("tr"));
+    });
+
+    // 🔥 insert in correct order
+    rows.forEach((row,i)=>{
+        if(table.rows.length > last.index + i){
+            table.insertBefore(row, table.rows[last.index + i]);
+        }else{
+            table.appendChild(row);
+        }
+    });
 
     saveTable();
     updateRemove();
