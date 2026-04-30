@@ -800,7 +800,7 @@ window.SEARCH_ACTIVE = false;
 previewTable.innerHTML="";
 
 let headers=[
-"REMOVE","FILL TO NUMBER","ADD",
+"REMOVE","ADD",
 "Institute","Branch",
 "JoSAA Opening","JoSAA Closing","JoSAA Round",
 "CSAB Opening","CSAB Closing","CSAB Round"
@@ -837,15 +837,7 @@ rm.style.color="white";
 td1.appendChild(rm);
 tr.appendChild(td1);
 
-// INPUT
-let td2=document.createElement("td");
-let input=document.createElement("input");
-input.type="number";
-input.style.width="60px";
-input.style.textAlign="center";
-input.style.border="2px solid black";
-td2.appendChild(input);
-tr.appendChild(td2);
+
 
 // ADD
 let td3=document.createElement("td");
@@ -1015,26 +1007,18 @@ refreshAllButtons();
 if(e.target.innerText.trim().includes("ADD")){
 let row = e.target.closest("tr");
 
-let inst=row.children[3].innerText;
-let branch=row.children[4].innerText;
+let inst=row.children[2].innerText;
+let branch=row.children[3].innerText;
 
-let input=row.children[1].querySelector("input");
-let value = input.value.trim();
-let pos = parseInt(value);
+// 🔥 NO POSITION INPUT ANYMORE
+let pos = null;
 
 let main=JSON.parse(localStorage.getItem("mainList")||"[]");
 
 if(main.some(m=>m.inst===inst && m.branch===branch)) return;
 
-if(value === ""){
-main.splice(main.length,0,{inst,branch});
-}
-else if(!isNaN(pos) && pos>0 && pos<=main.length){
-main.splice(pos-1,0,{inst,branch});
-}
-else{
-main.splice(main.length,0,{inst,branch});
-}
+// 🔥 ALWAYS ADD AT END
+main.push({inst,branch});
 
  undoStack.push({
  type: "ADD",
@@ -1176,8 +1160,8 @@ window.addEventListener("storage", function(e){
     rows.forEach((row,i)=>{
         if(i===0) return;
 
-        let instCell = row.children[3];
-        let branchCell = row.children[4];
+        let instCell = row.children[2];
+        let branchCell = row.children[3];
         let btn = row.children[2]?.querySelector("button");
 
         if(!instCell || !branchCell || !btn) return;
