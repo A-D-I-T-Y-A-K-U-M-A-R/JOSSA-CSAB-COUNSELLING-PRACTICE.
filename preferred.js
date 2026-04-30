@@ -834,6 +834,7 @@ sep.querySelector(".removeBlockBtn").onclick = function(){
 let current = sep.nextElementSibling;
 let toDelete = [];
 
+// 🔴 collect rows
 while(current){
 
 if(current.getAttribute && current.getAttribute("data-separator")==="true"){
@@ -844,9 +845,22 @@ toDelete.push(current);
 current = current.nextElementSibling;
 }
 
-// 🔥 DELETE ROWS BETWEEN CURRENT & NEXT SEPARATOR
+// 🔴 ALSO include separator itself
+toDelete.push(sep);
 
-// 🔥 DELETE
+// 🔴 REMOVE RELATED UNDO ENTRIES
+undoStack = undoStack.filter(entry => {
+
+    if(entry.type !== "REMOVE") return true;
+
+    // check if entry html matches any row in block
+    return !toDelete.some(r => r.outerHTML === entry.html);
+
+});
+
+localStorage.setItem("undoStack", JSON.stringify(undoStack));
+
+// 🔥 DELETE FROM DOM
 toDelete.forEach(r=>r.remove());
 
 // 🔥 SAVE
