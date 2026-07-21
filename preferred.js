@@ -1452,7 +1452,7 @@ tr.appendChild(td1);
 let add=document.createElement("button");
 add.innerText="ADD";
 let exists = main.some(mm=>mm.inst===row.inst && mm.branch===row.branch);
-add.style.background = exists ? "red" : "lightgreen";
+add.style.background = exists ? "red" : "green";
 add.style.color="white";
 add.style.cursor="pointer";
 add.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
