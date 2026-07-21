@@ -16,9 +16,7 @@ const branchList=document.getElementById("branchList");
 let data=[];
 let filteredData=[];
 
-/* =========================
-   LOAD DATA
-========================= */
+/* Load JSON data */
 fetch("data.json")
 .then(r=>r.json())
 .then(json=>{
@@ -26,8 +24,7 @@ data=json;
 filteredData=[...data];
 populateLists();
 loadSaved();
-// 🔥 SAFE SYNC: only run when NOT frozen
-// 🔥 ROOT FIX: sync ONLY ONCE, then never depend again
+// Sync main list only when not frozen
 if(!isFrozen){
 loadMainList();
 
@@ -37,19 +34,17 @@ renderRight();
 });
 
 
-/* =========================
-   LOAD MAIN LIST FROM 2ND PAGE (FIXED)
-========================= */
+/* Load main list from 2nd page */
 function loadMainList(){
 
-// 🔥 IMPORTANT FIX: only ADD, never REMOVE existing preferences
+// Only add, never remove existing preferences
 
 let main = JSON.parse(localStorage.getItem("mainList")||"[]");
 
-// 🔥 HARD FIX: ignore empty or cleared mainList
+// Ignore empty or cleared mainList
 if(!main.length) return;
 
-// 🔥 ALSO IGNORE if mainList suddenly reduced (UNFILTER case)
+// Ignore if mainList suddenly reduced (unfilter case)
 if(main.length < preferences.length) return;
 
 main.forEach((m,i)=>{
@@ -67,9 +62,7 @@ preferences.push({inst:m.inst,branch:m.branch});
 
 }
 
-/* =========================
-   DROPDOWN LISTS
-========================= */
+/* Populate dropdown lists */
 function populateLists(){
 
 let instSet=new Set();
@@ -94,9 +87,7 @@ branchList.appendChild(o);
 
 }
 
-/* =========================
-   LEFT TABLE
-========================= */
+/* Render available choices table */
 function renderLeft(){
 
 leftTable.innerHTML="";
@@ -146,9 +137,7 @@ availableCount.textContent="Total Available Choices: "+filteredData.length;
 
 }
 
-/* =========================
-   ADD PREF
-========================= */
+/* Add preference at chosen position */
 function addPref(inst,branch,choice){
 if(isFrozen) return;
 
@@ -168,9 +157,7 @@ autoSave();
 
 }
 
-/* =========================
-   RIGHT TABLE
-========================= */
+/* Render filled choices table */
 function renderRight(){
 
 rightTable.innerHTML="";
@@ -227,16 +214,12 @@ filledCount.textContent="Total Filled Choices: "+preferences.length;
 
 }
 
-/* =========================
-   AUTO SAVE
-========================= */
+/* Save preferences to storage */
 function autoSave(){
 localStorage.setItem("prefs",JSON.stringify(preferences));
 }
 
-/* =========================
-   LOAD SAVED
-========================= */
+/* Load saved preferences */
 function loadSaved(){
 
 let s=localStorage.getItem("prefs");
@@ -247,9 +230,7 @@ preferences=JSON.parse(s);
 
 }
 
-/* =========================
-   SEARCH
-========================= */
+/* Apply search filters */
 document.getElementById("searchBtn").onclick=()=>{
 
 let t=typeSearch.value.toLowerCase();
@@ -268,6 +249,7 @@ renderLeft();
 
 };
 
+/* Clear search filters */
 document.getElementById("clearFilters").onclick=()=>{
 
 typeSearch.value="";
@@ -279,9 +261,7 @@ renderLeft();
 
 };
 
-/* =========================
-   DELETE ALL
-========================= */
+/* Delete all filled choices */
 document.getElementById("deleteAllBtn").onclick=()=>{
 
 if(isFrozen) return;
@@ -293,9 +273,7 @@ renderLeft();
 autoSave();
 
 };
-/* =========================
-   DOWNLOAD (ONLY MODIFIED PART)
-========================= */
+/* Download filled choices as PDF */
 function downloadPDF(){
 
 let rows = document.querySelectorAll("#rightTable tbody tr");
@@ -373,27 +351,27 @@ win.document.close();
 
 const freezeSelect = document.getElementById("freezeSelect");
 
-/* 🔥 LOAD STATE ON PAGE LOAD */
+/* Load freeze state on page load */
 if(isFrozen){
 freezeSelect.value = "freeze";
-freezeSelect.style.background = "#8B0000";   // 🔴 FREEZE = RED
+freezeSelect.style.background = "#8B0000";   // freeze = red
 freezeSelect.style.color = "white";
 }else{
 freezeSelect.value = "float";
-freezeSelect.style.background = "darkgreen"; // 🟢 FLOAT = GREEN
+freezeSelect.style.background = "darkgreen"; // float = green
 freezeSelect.style.color = "white";
 }
 
-/* 🔥 ON CHANGE */
+/* Freeze/float toggle handler */
 freezeSelect.onchange = () => {
 
 if(freezeSelect.value === "freeze"){
 isFrozen = true;
-freezeSelect.style.background = "#8B0000";   // 🔴 FREEZE
+freezeSelect.style.background = "#8B0000";   // freeze
 freezeSelect.style.color = "white";
 }else{
 isFrozen = false;
-freezeSelect.style.background = "darkgreen"; // 🟢 FLOAT
+freezeSelect.style.background = "darkgreen"; // float
 freezeSelect.style.color = "white";
 }
 
