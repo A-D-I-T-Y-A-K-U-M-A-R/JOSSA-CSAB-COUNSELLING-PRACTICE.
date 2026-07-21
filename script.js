@@ -1,3 +1,48 @@
+/* =========================
+   BUTTON HOVER/CLICK EFFECT (reusable)
+   Only ever touches the --s CSS custom property.
+   Never sets style.transform directly, so it never
+   fights with any translate/position transform that
+   a button might already have. Call this on every
+   button right after it is created (createElement or
+   dynamically rebuilt via innerHTML).
+========================= */
+function applyButtonEffect(btn){
+if(!btn) return;
+
+btn.style.cursor="pointer";
+
+btn.onmouseover=function(){
+if(!this.locked && !this.clicked){
+this.style.setProperty('--s','1.1');
+}
+};
+
+btn.onmousedown=function(){
+if(!this.locked){
+this.clicked=true;
+this.locked=true;
+this.style.setProperty('--s','0.9');
+
+setTimeout(()=>{
+this.style.setProperty('--s','1');
+this.clicked=false;
+},100);
+
+setTimeout(()=>{
+this.locked=false;
+if(this.matches(':hover')) this.style.setProperty('--s','1.1');
+},100);
+}
+};
+
+btn.onmouseleave=function(){
+if(!this.clicked){
+this.style.setProperty('--s','1');
+}
+};
+}
+
 let preferences=[];
 let isFrozen = JSON.parse(localStorage.getItem("freezeState")) || false;
 const leftTable=document.querySelector("#leftTable tbody");
@@ -16,7 +61,9 @@ const branchList=document.getElementById("branchList");
 let data=[];
 let filteredData=[];
 
-/* Load JSON data */
+/* =========================
+   LOAD DATA
+========================= */
 fetch("data.json")
 .then(r=>r.json())
 .then(json=>{
@@ -24,7 +71,8 @@ data=json;
 filteredData=[...data];
 populateLists();
 loadSaved();
-// Sync main list only when not frozen
+// 🔥 SAFE SYNC: only run when NOT frozen
+// 🔥 ROOT FIX: sync ONLY ONCE, then never depend again
 if(!isFrozen){
 loadMainList();
 
@@ -34,17 +82,19 @@ renderRight();
 });
 
 
-/* Load main list from 2nd page */
+/* =========================
+   LOAD MAIN LIST FROM 2ND PAGE (FIXED)
+========================= */
 function loadMainList(){
 
-// Only add, never remove existing preferences
+// 🔥 IMPORTANT FIX: only ADD, never REMOVE existing preferences
 
 let main = JSON.parse(localStorage.getItem("mainList")||"[]");
 
-// Ignore empty or cleared mainList
+// 🔥 HARD FIX: ignore empty or cleared mainList
 if(!main.length) return;
 
-// Ignore if mainList suddenly reduced (unfilter case)
+// 🔥 ALSO IGNORE if mainList suddenly reduced (UNFILTER case)
 if(main.length < preferences.length) return;
 
 main.forEach((m,i)=>{
@@ -62,7 +112,9 @@ preferences.push({inst:m.inst,branch:m.branch});
 
 }
 
-/* Populate dropdown lists */
+/* =========================
+   DROPDOWN LISTS
+========================= */
 function populateLists(){
 
 let instSet=new Set();
@@ -87,7 +139,9 @@ branchList.appendChild(o);
 
 }
 
-/* Render available choices table */
+/* =========================
+   LEFT TABLE
+========================= */
 function renderLeft(){
 
 leftTable.innerHTML="";
@@ -115,12 +169,7 @@ row.innerHTML=`
 <td>${item.inst}</td>
 <td>${item.branch}</td>
 <td contenteditable="true"></td>
-<td><button class="addBtn" ${already?"disabled":""}
-style="cursor:pointer;"
-onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
-onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}"
-onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
->Add</button></td>
+<td><button class="addBtn" ${already?"disabled":""}>Add</button></td>
 `;
 
 if(!already){
@@ -134,6 +183,9 @@ addPref(item.inst,item.branch,choice);
 
 }
 
+// 🔥 pointer + hover + press animation on every Add button
+applyButtonEffect(row.querySelector(".addBtn"));
+
 leftTable.appendChild(row);
 
 });
@@ -142,7 +194,9 @@ availableCount.textContent="Total Available Choices: "+filteredData.length;
 
 }
 
-/* Add preference at chosen position */
+/* =========================
+   ADD PREF
+========================= */
 function addPref(inst,branch,choice){
 if(isFrozen) return;
 
@@ -162,7 +216,9 @@ autoSave();
 
 }
 
-/* Render filled choices table */
+/* =========================
+   RIGHT TABLE
+========================= */
 function renderRight(){
 
 rightTable.innerHTML="";
@@ -175,12 +231,7 @@ row.innerHTML=`
 <td>${p.inst}</td>
 <td>${p.branch}</td>
 <td><input type="number" value="${i+1}" min="1"></td>
-<td><button class="deleteBtn" ${isFrozen?"disabled":""}
-style="cursor:pointer;"
-onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
-onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}"
-onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
->Delete</button></td>
+<td><button class="deleteBtn" ${isFrozen?"disabled":""}>Delete</button></td>
 `;
 
 row.querySelector(".deleteBtn").onclick=()=>{
@@ -216,6 +267,9 @@ autoSave();
 
 };
 
+// 🔥 pointer + hover + press animation on every Delete button
+applyButtonEffect(row.querySelector(".deleteBtn"));
+
 rightTable.appendChild(row);
 
 });
@@ -224,12 +278,16 @@ filledCount.textContent="Total Filled Choices: "+preferences.length;
 
 }
 
-/* Save preferences to storage */
+/* =========================
+   AUTO SAVE
+========================= */
 function autoSave(){
 localStorage.setItem("prefs",JSON.stringify(preferences));
 }
 
-/* Load saved preferences */
+/* =========================
+   LOAD SAVED
+========================= */
 function loadSaved(){
 
 let s=localStorage.getItem("prefs");
@@ -240,7 +298,9 @@ preferences=JSON.parse(s);
 
 }
 
-/* Apply search filters */
+/* =========================
+   SEARCH
+========================= */
 document.getElementById("searchBtn").onclick=()=>{
 
 let t=typeSearch.value.toLowerCase();
@@ -259,7 +319,6 @@ renderLeft();
 
 };
 
-/* Clear search filters */
 document.getElementById("clearFilters").onclick=()=>{
 
 typeSearch.value="";
@@ -271,7 +330,9 @@ renderLeft();
 
 };
 
-/* Delete all filled choices */
+/* =========================
+   DELETE ALL
+========================= */
 document.getElementById("deleteAllBtn").onclick=()=>{
 
 if(isFrozen) return;
@@ -283,7 +344,9 @@ renderLeft();
 autoSave();
 
 };
-/* Download filled choices as PDF */
+/* =========================
+   DOWNLOAD (ONLY MODIFIED PART)
+========================= */
 function downloadPDF(){
 
 let rows = document.querySelectorAll("#rightTable tbody tr");
@@ -361,27 +424,27 @@ win.document.close();
 
 const freezeSelect = document.getElementById("freezeSelect");
 
-/* Load freeze state on page load */
+/* 🔥 LOAD STATE ON PAGE LOAD */
 if(isFrozen){
 freezeSelect.value = "freeze";
-freezeSelect.style.background = "#8B0000";   // freeze = red
+freezeSelect.style.background = "#8B0000";   // 🔴 FREEZE = RED
 freezeSelect.style.color = "white";
 }else{
 freezeSelect.value = "float";
-freezeSelect.style.background = "darkgreen"; // float = green
+freezeSelect.style.background = "darkgreen"; // 🟢 FLOAT = GREEN
 freezeSelect.style.color = "white";
 }
 
-/* Freeze/float toggle handler */
+/* 🔥 ON CHANGE */
 freezeSelect.onchange = () => {
 
 if(freezeSelect.value === "freeze"){
 isFrozen = true;
-freezeSelect.style.background = "#8B0000";   // freeze
+freezeSelect.style.background = "#8B0000";   // 🔴 FREEZE
 freezeSelect.style.color = "white";
 }else{
 isFrozen = false;
-freezeSelect.style.background = "darkgreen"; // float
+freezeSelect.style.background = "darkgreen"; // 🟢 FLOAT
 freezeSelect.style.color = "white";
 }
 
