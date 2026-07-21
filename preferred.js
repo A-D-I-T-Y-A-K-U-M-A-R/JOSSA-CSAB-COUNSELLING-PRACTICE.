@@ -890,35 +890,7 @@ onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
 </td>
 `;
 previewTable.appendChild(sep);
-sep.querySelector(".removeBlockBtn").onclick = function(){
 
-let current = sep.nextElementSibling;
-let toDelete = [];
-
-// collect rows
-while(current){
-
-if(current.getAttribute && current.getAttribute("data-separator")==="true"){
-break;
-}
-
-toDelete.push(current);
-current = current.nextElementSibling;
-}
-
-// ALSO include separator itself
-toDelete.push(sep);
-
-// FULL UNDO RESET (BLOCK = PERMANENT DELETE)
-undoStack = [];
-localStorage.removeItem("undoStack");
-
-// DELETE FROM DOM
-toDelete.forEach(r=>r.remove());
-
-// SAVE
-saveTable();
-};
 }
 
 last=r[0];
@@ -1118,6 +1090,36 @@ if(last.type === "ADD"){
 
 /* FINAL EVENT SYSTEM (FIXED) */
 document.addEventListener("click", function(e){
+
+if(e.target.classList.contains("removeBlockBtn")){
+
+    let sep = e.target.closest("tr");
+
+    let current = sep.nextElementSibling;
+    let toDelete = [];
+
+    while(current){
+
+        if(current.getAttribute &&
+           current.getAttribute("data-separator")==="true"){
+            break;
+        }
+
+        toDelete.push(current);
+        current = current.nextElementSibling;
+    }
+
+    toDelete.push(sep);
+
+    undoStack = [];
+    localStorage.removeItem("undoStack");
+
+    toDelete.forEach(r=>r.remove());
+
+    saveTable();
+
+    return;
+}
 
 if(e.target.innerText.trim() === "REMOVE"){
 if(removeLocked) return;
