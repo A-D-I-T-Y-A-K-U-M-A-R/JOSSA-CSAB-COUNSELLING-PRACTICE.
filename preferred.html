@@ -225,7 +225,7 @@ ADD_TABLE
 
 <br><br>
 
-<button id="previewBtn" onclick="handlePreviewClick()" style="padding:10px 20px;background:#ff69b4;color:black;font-weight:bold;border:none;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button id="previewBtn" onclick="handlePreviewClick()" style="padding:10px 20px;background:#ff69b4;color:black;font-weight:bold;border:none;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},150)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 SEE_RESULTS
 </button>
 
