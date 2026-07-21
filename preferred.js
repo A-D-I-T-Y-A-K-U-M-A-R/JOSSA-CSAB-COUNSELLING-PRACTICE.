@@ -881,10 +881,11 @@ sep.setAttribute("data-separator","true");
 sep.innerHTML=`
 <td colspan='11' style='height:40px;background:#eee;position:relative;'>
 
-<button class="removeBlockBtn" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:red;color:white;border:none;padding:5px 10px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
-">
-REMOVE_COLLEGE_BLOCK
-</button>
+<button class="removeBlockBtn" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--s,1));transition:transform 0.1s ease;background:red;color:white;border:none;padding:5px 10px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
+"onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
+onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}"
+onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
+>REMOVE_COLLEGE_BLOCK</button>
 
 </td>
 `;
@@ -930,16 +931,30 @@ let rm=document.createElement("button");
 rm.innerText="REMOVE";
 rm.style.background="red";
 rm.style.color="white";
+rm.style.cursor="pointer";
+rm.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
+rm.style.transform="scale(var(--s,1))";
+rm.style.transition="transform 0.1s ease";
+rm.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
+rm.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
+rm.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
 td1.appendChild(rm);
 tr.appendChild(td1);
-
 
 
 // ADD
 let td3=document.createElement("td");
 let add=document.createElement("button");
 add.innerText="ADD";
-
+add.style.background="red";
+add.style.color="white";
+add.style.cursor="pointer";
+add.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
+add.style.transform="scale(var(--s,1))";
+add.style.transition="transform 0.1s ease";
+add.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
+add.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
+add.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
 // CHECK FROM mainList
 let main=JSON.parse(localStorage.getItem("mainList")||"[]");
 
