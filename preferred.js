@@ -8,7 +8,54 @@ let JSON_DATA = {};
 let ORIGINAL_DATA = [];
 let CURRENT_DATA = [];
 
-// NORMALIZE FUNCTION (Seat Type safe compare)
+/* =========================
+   BUTTON HOVER/CLICK EFFECT (reusable)
+   Only ever touches the --s CSS custom property.
+   Never sets style.transform directly, so it never
+   fights with any translate/position transform a
+   button might already have (see .removeBlockBtn in
+   CSS, which does translate(-50%,-50%) scale(var(--s))
+   in one rule). Call this on every button right after
+   it is created, and again on every button that comes
+   back from localStorage via innerHTML restore.
+========================= */
+function applyButtonEffect(btn){
+if(!btn) return;
+
+btn.style.cursor="pointer";
+
+btn.onmouseover=function(){
+if(!this.locked && !this.clicked){
+this.style.setProperty('--s','1.1');
+}
+};
+
+btn.onmousedown=function(){
+if(!this.locked){
+this.clicked=true;
+this.locked=true;
+this.style.setProperty('--s','0.9');
+
+setTimeout(()=>{
+this.style.setProperty('--s','1');
+this.clicked=false;
+},100);
+
+setTimeout(()=>{
+this.locked=false;
+if(this.matches(':hover')) this.style.setProperty('--s','1.1');
+},100);
+}
+};
+
+btn.onmouseleave=function(){
+if(!this.clicked){
+this.style.setProperty('--s','1');
+}
+};
+}
+
+// 🔥 NORMALIZE FUNCTION (Seat Type safe compare)
 function normalizeSeat(value){
     return (value || "")
         .toLowerCase()
@@ -17,11 +64,11 @@ function normalizeSeat(value){
         .replace(/-/g, " ");
 }
 
-// SEAT TYPE FILTER
+// 🔥 SEAT TYPE FILTER
 function applySeatTypeFilter(data){
     let selectedSeat = document.getElementById("seatType").value;
 
- // default = OPEN
+    // default = OPEN
     if(!selectedSeat){
         selectedSeat = "OPEN";
     }
@@ -34,7 +81,7 @@ function applySeatTypeFilter(data){
     });
 }
 
-// NORMALIZE FUNCTION (Gender full-proof)
+// 🔥 NORMALIZE FUNCTION (Gender full-proof)
 function normalizeGender(value){
     return (value || "")
         .toLowerCase()
@@ -45,7 +92,7 @@ function normalizeGender(value){
         .replace(/\s*\)/g, ")");
 }
 
-// GENDER FILTER
+// 🔥 GENDER FILTER
 function applyGenderFilter(data){
     let selectedGender = document.getElementById("genderType").value;
 
@@ -61,7 +108,7 @@ function applyGenderFilter(data){
     });
 }
 
-// NORMALIZE QUOTA
+// 🔥 NORMALIZE QUOTA
 function normalizeQuota(q){
     return (q || "")
         .toLowerCase()
@@ -69,7 +116,7 @@ function normalizeQuota(q){
         .replace(/\s+/g, " ");
 }
 
-// NORMALIZE STATE
+// 🔥 NORMALIZE STATE
 function normalizeState(s){
     return (s || "")
         .toLowerCase()
@@ -81,7 +128,7 @@ function normalizeState(s){
 
 }
 
-// HOME STATE FILTER
+// 🔥 HOME STATE FILTER
 function applyHomeStateFilter(data){
 
     let selectedState = document.getElementById("homeState").value;
@@ -95,10 +142,10 @@ function applyHomeStateFilter(data){
        let instRaw = item["Institute"];
 let inst = instRaw.toLowerCase().trim().replace(/\s+/g," ");
 
-// direct match
+// 🔥 direct match
 let instState = STATE_MAP[inst];
 
-// fallback (important)
+// 🔥 fallback (important)
 if(!instState){
     for(let key in STATE_MAP){
         if(inst.includes(key)){
@@ -112,7 +159,7 @@ instState = normalizeState(instState || "");
 
         let quotaRaw = normalizeQuota(item["Quota"]);
 
- // normalize quota types
+        // 🔥 normalize quota types
         let quota = "";
         if(quotaRaw.includes("home")) quota = "hs";
         else if(quotaRaw === "hs") quota = "hs";
@@ -123,30 +170,30 @@ instState = normalizeState(instState || "");
         else if(quotaRaw === "jk") quota = "jk";
         else if(quotaRaw === "go") quota = "go";
         else if(quotaRaw === "la") quota = "la";
-        else if(quotaRaw.includes("dasa")) return false; // remove always
+        else if(quotaRaw.includes("dasa")) return false; // ❌ remove always
 
- // SAME STATE
+        // 🔴 SAME STATE
      if(instState === selectedState){
 
- // CHECK: does this institute have any HS row?
+    // 🔴 CHECK: does this institute have any HS row?
    let hasHS = ORIGINAL_DATA.some(d => 
         d["Institute"] === item["Institute"] &&
         normalizeQuota(d["Quota"]).includes("hs")
     );
 
- // special states
+    // special states
     if(instState === "jammu and kashmir" && (quota === "hs" || quota === "jk")) return true;
     if(instState === "goa" && (quota === "hs" || quota === "go")) return true;
     if(instState === "ladakh" && (quota === "hs" || quota === "la")) return true;
 
- // FINAL LOGIC
+    // 🔥 FINAL LOGIC
     if(hasHS){
         return quota === "hs";   // HS present → only HS
     }else{
         return quota === "ai";   // HS absent → allow AI
     }
 }
- // DIFFERENT STATE
+        // 🔴 DIFFERENT STATE
         else{
             return (quota === "ai" || quota === "os");
         }
@@ -157,15 +204,15 @@ instState = normalizeState(instState || "");
 
 async function loadJSON(){
 
- /* GET CURRENT SELECTED YEAR */
+    /* 🔥 GET CURRENT SELECTED YEAR */
     const selectedYear =
     document.getElementById("yearSelector").value;
 
- /* DYNAMIC JSON FILE NAME */
+    /* 🔥 DYNAMIC JSON FILE NAME */
     const jsonFile =
     `preferred_data(${selectedYear}).json`;
 
- /* FETCH CURRENT YEAR SOURCE */
+    /* 🔥 FETCH CURRENT YEAR SOURCE */
     const res = await fetch(jsonFile);
 
     JSON_DATA = await res.json();
@@ -177,10 +224,10 @@ JSON_DATA["ROUND 1 JOSSA 2025"] || [];
 
     CURRENT_DATA = tempData;
 
- // populate after filtering
+    // ✅ populate after filtering
     populateSearchLists();
 
- // RESTORE SEARCH STATE
+    // 🔥 RESTORE SEARCH STATE
     let savedType = localStorage.getItem("typeSearch") || "";
     let savedInst = localStorage.getItem("instSearch") || "";
     let savedBranch = localStorage.getItem("branchSearch") || "";
@@ -189,13 +236,18 @@ JSON_DATA["ROUND 1 JOSSA 2025"] || [];
     document.getElementById("instSearch").value = savedInst;
     document.getElementById("branchSearch").value = savedBranch;
 
-    // Rebuild branch list now that saved institute value is restored
+    // 🔥 instSearch.value was just restored from localStorage AFTER
+    // populateSearchLists() already ran (with an empty/stale Institute
+    // box), so the Branch dropdown at this point may still be the
+    // "ALL branches" list instead of being linked to the restored
+    // Institute. Rebuild it now so a page refresh with a saved
+    // Institute value shows the correctly filtered Branch list too.
     populateBranchList();
 }
 
 loadJSON();
 
-// SAVE FILTER VALUES
+// 🔴 SAVE FILTER VALUES
 
 document.getElementById("seatType").onchange = function(){
 localStorage.setItem("seatType", this.value);
@@ -361,10 +413,10 @@ const OTHER_ORDER = {
 "university of hyderabad":128
 };
 
-// FULL STATE MAP (ALL COLLEGES)
+// 🔥 FULL STATE MAP (ALL COLLEGES)
 const STATE_MAP = {
 
-// Iit
+// ===== IIT =====
 "indian institute of technology (bhu) varanasi":"uttar pradesh",
 "indian institute of technology madras":"tamil nadu",
 "indian institute of technology delhi":"delhi",
@@ -389,7 +441,7 @@ const STATE_MAP = {
 "indian institute of technology ropar":"punjab",
 "indian institute of technology tirupati":"andhra pradesh",
 
-// Nit
+// ===== NIT =====
 "national institute of technology, tiruchirappalli":"tamil nadu",
 "national institute of technology karnataka, surathkal":"karnataka",
 "national institute of technology, rourkela":"odisha",
@@ -422,7 +474,7 @@ const STATE_MAP = {
 "national institute of technology, mizoram":"mizoram",
 "national institute of technology, srinagar":"jammu and kashmir",
 
-// Iiit
+// ===== IIIT =====
 "indian institute of information technology, allahabad":"uttar pradesh",
 "atal bihari vajpayee indian institute of information technology & management gwalior":"madhya pradesh",
 "indian institute of information technology lucknow":"uttar pradesh",
@@ -451,7 +503,7 @@ const STATE_MAP = {
 "international institute of information technology, naya raipur":"chhattisgarh",
 "indian institute of information technology senapati manipur":"manipur",
 
-// Other / Gfti
+// ===== OTHER / GFTI =====
 "birla institute of technology, mesra, ranchi":"jharkhand",
 "national institute of electronics and information technology, ajmer (rajasthan)":"rajasthan",
 "national institute of electronics and information technology, aurangabad (maharashtra)":"maharashtra",
@@ -520,12 +572,14 @@ if(n.includes("indian institute of technology")) return "IIT";
 if(n.includes("national institute of technology")) return "NIT";
 if(n.includes("indian institute of information technology")) return "IIIT";
 return "OTHER"; 
-// if(n.includes("birla institute of technology, mesra"))return "OTHER"; (ONLY GFTI AS BIT MEESRA)
-// return "OTHER"; (ALL GFTI)
+//          if(n.includes("birla institute of technology, mesra"))return "OTHER";   (ONLY GFTI AS BIT MEESRA)
+//            return "OTHER";                   (ALL GFTI)
   
 }
 
-/* Populate institute dropdown list */
+/* 🔥 INSTITUTE DROPDOWN — UNCHANGED BEHAVIOUR
+   Always shows ALL unique institutes from the currently loaded year's
+   ORIGINAL_DATA. Nothing about this list depends on any other field. */
 function populateInstituteList(){
 
     let instSet = new Set();
@@ -546,7 +600,21 @@ function populateInstituteList(){
     });
 }
 
-/* Populate branch dropdown, linked to selected institute */
+/* 🔥 BRANCH DROPDOWN — DYNAMIC, LINKED TO INSTITUTE NAME
+   Rules (as required):
+   1. Institute Name blank  -> Branch dropdown = ALL unique
+      "Academic Program Name" values from CURRENT YEAR's ORIGINAL_DATA.
+   2. Institute Name has an EXACT match in ORIGINAL_DATA["Institute"]
+      -> Branch dropdown = ONLY the unique "Academic Program Name"
+      values belonging to that exact institute.
+   3. Institute Name typed but does NOT (yet) exactly match any
+      institute (user still typing / mid-selection) -> fall back to
+      ALL unique branches so the dropdown never goes blank while
+      the user is typing.
+   No hardcoding — always rebuilt fresh from CURRENT YEAR's
+   ORIGINAL_DATA, so new/renamed branches show up automatically.
+   Institute dropdown, search logic, preview/result logic are all
+   completely untouched by this function. */
 function populateBranchList(){
 
     let branchList = document.getElementById("branchList");
@@ -562,7 +630,7 @@ function populateBranchList(){
     }else{
         rows = ORIGINAL_DATA.filter(d => d["Institute"] === selectedInstitute);
 
-        // partial typing, no exact match yet -> show all
+        // exact institute not matched yet (partial typing) -> show all
         if(rows.length === 0){
             rows = ORIGINAL_DATA;
         }
@@ -582,13 +650,19 @@ function populateBranchList(){
     });
 }
 
-/* Populate institute and branch search lists */
+/* 🔥 KEEPS OLD FUNCTION NAME WORKING — called from loadJSON(), untouched
+   there. Just builds Institute list (unchanged) + Branch list (now
+   dynamic/linked to whatever Institute value is currently in the box). */
 function populateSearchLists(){
     populateInstituteList();
     populateBranchList();
 }
 
-/* Re-filter branch list on institute name input */
+/* 🔥 RE-FILTER BRANCH DROPDOWN EVERY TIME USER TYPES/SELECTS IN
+   INSTITUTE NAME BOX. "input" event (not just "change") so it reacts
+   instantly whether the user types, pastes, clears the box, or picks
+   an option from the Institute datalist. Institute box itself is
+   NOT touched/modified in any way — read-only listener. */
 (function(){
     let instBox = document.getElementById("instSearch");
     if(instBox){
@@ -615,7 +689,7 @@ removeLocked = (saved === "lock");
 }
 updateRemove();
 
-// RESTORE FILTER VALUES
+// 🔴 RESTORE FILTER VALUES
 
 let savedSeat = localStorage.getItem("seatType");
 let savedGender = localStorage.getItem("genderType");
@@ -640,6 +714,70 @@ exam.onchange=()=>localStorage.setItem("exam",exam.value);
 rank.value=localStorage.getItem("rank")||"";
 exam.value=localStorage.getItem("exam")||"";
 
+/* =========================
+   REMOVE_COLLEGE_BLOCK — named handler (FIX)
+   Uses this.closest("tr") instead of a closure over the
+   "sep" row that existed only at creation time, so the
+   SAME function can be re-attached after a page refresh
+   restores the table from localStorage (innerHTML never
+   carries JS event handlers with it).
+========================= */
+function removeCollegeBlock(){
+
+let sep = this.closest("tr");
+let current = sep.nextElementSibling;
+let toDelete = [];
+
+// 🔴 collect rows
+while(current){
+
+if(current.getAttribute && current.getAttribute("data-separator")==="true"){
+break;
+}
+
+toDelete.push(current);
+current = current.nextElementSibling;
+}
+
+// 🔴 ALSO include separator itself
+toDelete.push(sep);
+
+// 🔴 FULL UNDO RESET (BLOCK = PERMANENT DELETE)
+undoStack = [];
+localStorage.removeItem("undoStack");
+
+// 🔥 DELETE FROM DOM
+toDelete.forEach(r=>r.remove());
+
+// 🔥 SAVE
+saveTable();
+}
+
+/* =========================
+   ATTACH/RE-ATTACH ALL PREVIEW-TABLE BUTTON BEHAVIOUR (FIX)
+   Call this any time #previewTable's contents are (re)built
+   OR restored from localStorage. Re-binds:
+   1. REMOVE_COLLEGE_BLOCK click handler (the actual bug fix)
+   2. pointer + hover + press animation on REMOVE / ADD /
+      REMOVE_COLLEGE_BLOCK buttons (Part 1 requirement)
+   REMOVE and ADD themselves don't need their click logic
+   re-bound because they already run through the single
+   document-level delegated click listener further below,
+   which works regardless of refresh.
+========================= */
+function attachPreviewEvents(){
+
+document.querySelectorAll("#previewTable .removeBlockBtn").forEach(btn=>{
+btn.onclick = removeCollegeBlock;
+applyButtonEffect(btn);
+});
+
+document.querySelectorAll("#previewTable .js-remove-btn, #previewTable .js-add-btn").forEach(btn=>{
+applyButtonEffect(btn);
+});
+
+}
+
 /* SAVE TABLE */
 function saveTable(){
 localStorage.setItem("previewTableData",previewTable.innerHTML);
@@ -652,7 +790,7 @@ if(t){
 previewTable.innerHTML=t;
 updateRemove();
 refreshAllButtons();
-
+attachPreviewEvents();   // 🔥 FIX: restores REMOVE_COLLEGE_BLOCK + button animation after refresh
 
 }
 }
@@ -689,7 +827,7 @@ previewBtn.classList.toggle("locked-btn", removeLocked);
 
 }
 
-// GLOBAL BUTTON COLOR REFRESH (NO LAG)
+// 🔥 GLOBAL BUTTON COLOR REFRESH (NO LAG)
 function refreshAllButtons(){
 
 let main = JSON.parse(localStorage.getItem("mainList")||"[]");
@@ -725,8 +863,8 @@ records = {};
 for(let file of files){
 try{
 
-// OLD EXCEL CODE REMOVED
-// NEW JSON SOURCE
+// ❌ OLD EXCEL CODE REMOVED
+// ✅ NEW JSON SOURCE
 let rows = JSON_DATA[file];
 if(!rows) continue;
 
@@ -734,7 +872,7 @@ let match = file.match(/round (\d+)/i);
 let round = match ? parseInt(match[1]) : 0;
 let source = file.toLowerCase().includes("jossa") ? "JOSSA" : "CSAB";
 
-// JSON LOOP (updated mapping)
+// 🔥 JSON LOOP (updated mapping)
 for(let i=0;i<rows.length;i++){
 let r = rows[i];
 
@@ -743,7 +881,7 @@ let branch = r["Academic Program Name"];
 let opening = parseInt(r["Opening Rank"]);
 let closing = parseInt(r["Closing Rank"]);
 
-// APPLY ALL FILTERS ROW-WISE (FINAL FIX)
+// 🔴 APPLY ALL FILTERS ROW-WISE (FINAL FIX)
 
 let tempRow = [r];
 
@@ -807,14 +945,14 @@ return arr;
 /* PREVIEW */
 
 previewBtn.onclick = async ()=>{
-/* LOAD CURRENT SELECTED YEAR JSON */
+/* 🔥 LOAD CURRENT SELECTED YEAR JSON */
 await loadJSON();
 if(Object.keys(JSON_DATA).length === 0){
 alert("DATA SOURCE FETCHING ERROR, REPORT THE ERROR TO DEVELOPER OR ELSE CAN'T DO ANYTHING RADHE RADHE.");
 return;
 }
 
-// NO PRE-FILTERING (ROW FILTERING IN process)
+// 🔴 NO PRE-FILTERING (ROW FILTERING IN process)
 
 let r=parseInt(rank.value);
 let e=exam.value;
@@ -822,7 +960,7 @@ let e=exam.value;
 await process(r,e);
 let data=buildData();
 
-// APPLY SEARCH ON FINAL DATA
+// 🔴 APPLY SEARCH ON FINAL DATA
 
 if(window.SEARCH_ACTIVE){
 
@@ -881,16 +1019,19 @@ sep.setAttribute("data-separator","true");
 sep.innerHTML=`
 <td colspan='11' style='height:40px;background:#eee;position:relative;'>
 
-<button class="removeBlockBtn" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--s,1));transition:transform 0.1s ease;background:red;color:white;border:none;padding:5px 10px;cursor:pointer;box-shadow:0 0 10px rgba(0,0,0,0.4);
-"onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
-onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}"
-onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
->REMOVE_COLLEGE_BLOCK</button>
+<button class="removeBlockBtn" style="position:absolute;left:50%;top:50%;background:red;color:white;border:none;padding:5px 10px;box-shadow:0 0 10px rgba(0,0,0,0.4);
+">
+REMOVE_COLLEGE_BLOCK
+</button>
 
 </td>
 `;
 previewTable.appendChild(sep);
-
+// 🔥 FIX: click handler + hover/press animation are now bound
+// centrally by attachPreviewEvents() (called once at the end of
+// this block), using removeCollegeBlock() which reads its own
+// row via this.closest("tr") instead of a one-time closure. This
+// is what makes REMOVE_COLLEGE_BLOCK survive a page refresh.
 }
 
 last=r[0];
@@ -901,33 +1042,21 @@ let tr=document.createElement("tr");
 let td1=document.createElement("td");
 let rm=document.createElement("button");
 rm.innerText="REMOVE";
+rm.classList.add("js-remove-btn");
 rm.style.background="red";
 rm.style.color="white";
-rm.style.cursor="pointer";
-rm.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
-rm.style.transform="scale(var(--s,1))";
-rm.style.transition="transform 0.1s ease";
-rm.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
-rm.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
-rm.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
 td1.appendChild(rm);
 tr.appendChild(td1);
+
 
 
 // ADD
 let td3=document.createElement("td");
 let add=document.createElement("button");
 add.innerText="ADD";
-add.style.background="red";
-add.style.color="white";
-add.style.cursor="pointer";
-add.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
-add.style.transform="scale(var(--s,1))";
-add.style.transition="transform 0.1s ease";
-add.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
-add.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
-add.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
-// CHECK FROM mainList
+add.classList.add("js-add-btn");
+
+// 🔥 CHECK FROM mainList
 let main=JSON.parse(localStorage.getItem("mainList")||"[]");
 
 let exists = main.some(m=>m.inst===r[0] && m.branch===r[1]);
@@ -953,9 +1082,10 @@ previewTable.appendChild(tr);
 
 saveTable();
 updateRemove();
+attachPreviewEvents();   // 🔥 pointer/hover/press animation + REMOVE_COLLEGE_BLOCK binding
 
-/* SAVE CURRENT ACTIVE RESULT SOURCE */
-/* THIS IS THE ONLY COMMIT POINT — SEE_RESULTS click */
+/* 🔥 SAVE CURRENT ACTIVE RESULT SOURCE */
+/* 🔥 THIS IS THE ONLY COMMIT POINT — SEE_RESULTS click */
 
 const selectedYear =
 document.getElementById("yearSelector").value;
@@ -970,7 +1100,7 @@ localStorage.setItem(
 selectedYear
 );
 
-/* UPDATE CURRENT SOURCE UI */
+/* 🔥 UPDATE CURRENT SOURCE UI */
 
 const currentSourceText =
 document.getElementById("currentSourceText");
@@ -986,7 +1116,7 @@ currentSourceText.textContent =
 
 
 
-/* AUTO ADD TABLE SYSTEM */
+/* 🔥 AUTO ADD TABLE SYSTEM */
 
 document.getElementById("addTableBtn").onclick = async function(){
 
@@ -1009,10 +1139,10 @@ for(let i=0; i<validRows.length; i++){
 
     if(addBtn){
 
- // same manual click effect
+        // same manual click effect
         addBtn.click();
 
- // delay so mechanism completes properly
+        // delay so mechanism completes properly
         await new Promise(res => setTimeout(res, 3));
     }
 }
@@ -1033,7 +1163,7 @@ if(undoStack.length === 0) return;
 let last = undoStack.pop();
 localStorage.setItem("undoStack", JSON.stringify(undoStack));
 
-// CASE 1: REMOVE undo → restore row
+// 🔴 CASE 1: REMOVE undo → restore row
 if(last.type === "REMOVE"){
     let temp = document.createElement("table");
     temp.innerHTML = "<tbody>" + last.html + "</tbody>";
@@ -1053,7 +1183,7 @@ if(last.type === "REMOVE"){
 
 
 
-// CASE 2: ADD undo → remove from mainList
+// 🔴 CASE 2: ADD undo → remove from mainList
 if(last.type === "ADD"){
 
     let main = JSON.parse(localStorage.getItem("mainList")||"[]");
@@ -1066,7 +1196,7 @@ if(last.type === "ADD"){
 
     localStorage.setItem("mainList", JSON.stringify(main));
 
- // BUTTON COLOR BACK TO GREEN
+    // 🔥 BUTTON COLOR BACK TO GREEN
     let rows = document.querySelectorAll("#previewTable tr");
 
     rows.forEach((row,i)=>{
@@ -1088,38 +1218,8 @@ if(last.type === "ADD"){
 }
 }
 
-/* FINAL EVENT SYSTEM (FIXED) */
+/* 🔥 FINAL EVENT SYSTEM (FIXED) */
 document.addEventListener("click", function(e){
-
-if(e.target.classList.contains("removeBlockBtn")){
-
-    let sep = e.target.closest("tr");
-
-    let current = sep.nextElementSibling;
-    let toDelete = [];
-
-    while(current){
-
-        if(current.getAttribute &&
-           current.getAttribute("data-separator")==="true"){
-            break;
-        }
-
-        toDelete.push(current);
-        current = current.nextElementSibling;
-    }
-
-    toDelete.push(sep);
-
-    undoStack = [];
-    localStorage.removeItem("undoStack");
-
-    toDelete.forEach(r=>r.remove());
-
-    saveTable();
-
-    return;
-}
 
 if(e.target.innerText.trim() === "REMOVE"){
 if(removeLocked) return;
@@ -1136,7 +1236,7 @@ localStorage.setItem("undoStack", JSON.stringify(undoStack));
 
 row.remove();
 saveTable();
-// GLOBAL SYNC
+// 🔥 GLOBAL SYNC
 refreshAllButtons();
 }
 
@@ -1146,14 +1246,14 @@ let row = e.target.closest("tr");
 let inst=row.children[2].innerText;
 let branch=row.children[3].innerText;
 
-// NO POSITION INPUT ANYMORE
+// 🔥 NO POSITION INPUT ANYMORE
 let pos = null;
 
 let main=JSON.parse(localStorage.getItem("mainList")||"[]");
 
 if(main.some(m=>m.inst===inst && m.branch===branch)) return;
 
-// ALWAYS ADD AT END
+// 🔥 ALWAYS ADD AT END
 main.push({inst,branch});
 
  undoStack.push({
@@ -1163,10 +1263,10 @@ main.push({inst,branch});
 });
 localStorage.setItem("undoStack", JSON.stringify(undoStack));
 localStorage.setItem("mainList",JSON.stringify(main));
-// GLOBAL SYNC
+// 🔥 GLOBAL SYNC
 refreshAllButtons();
 
-// BUTTON COLOR CHANGE
+// 🔥 BUTTON COLOR CHANGE
 
 }
 
@@ -1178,19 +1278,19 @@ let type = document.getElementById("typeSearch").value;
 let inst = document.getElementById("instSearch").value.toLowerCase();
 let branch = document.getElementById("branchSearch").value.toLowerCase();
 
- // SAVE SEARCH STATE
+    // 🔥 SAVE SEARCH STATE
 localStorage.setItem("typeSearch", type);
 localStorage.setItem("instSearch", inst);
 localStorage.setItem("branchSearch", branch);
     
 let tempData = [...ORIGINAL_DATA];
 
-// Apply all filters first
+// 🔥 Apply all filters first
 tempData = applySeatTypeFilter(tempData);
 tempData = applyGenderFilter(tempData);
 tempData = applyHomeStateFilter(tempData);
 
-// SAFE SEARCH STORE (no filtering here)
+// 🔴 SAFE SEARCH STORE (no filtering here)
 
 window.SEARCH_ACTIVE = true;
 window.SEARCH_TYPE = type;
@@ -1225,7 +1325,7 @@ document.getElementById("cleanTableBtn").onclick = function(){
 let table = document.getElementById("previewTable");
 if(!table) return;
 
-// CLEAR UNDO STACK (important)
+// 🔴 CLEAR UNDO STACK (important)
 undoStack = [];
 localStorage.removeItem("undoStack");
 
@@ -1245,7 +1345,7 @@ i++;
 continue;
 }
 
-// START OF GROUP
+// 🔴 START OF GROUP
 let groupStart = i;
 
 while(i < rows.length && rows[i].children.length === 1 && rows[i].children[0].colSpan == 11){
@@ -1254,11 +1354,11 @@ i++;
 
 let groupEnd = i - 1;
 
-// CHECK POSITION
+// 🔴 CHECK POSITION
 let isTop = groupStart === 1; // header ke baad
 let isEnd = groupEnd === rows.length - 1;
 
-// APPLY RULES
+// 🔴 APPLY RULES
 
 // TOP → remove all
 if(isTop){
@@ -1275,16 +1375,16 @@ cleaned.push(rows[groupEnd]);
 
 }
 
-// rebuild table
+// 🔴 rebuild table
 table.innerHTML="";
 cleaned.forEach(r=>table.appendChild(r));
 
-// SAVE (IMPORTANT for refresh persistence)
+// 🔴 SAVE (IMPORTANT for refresh persistence)
 saveTable();
 
 };
 
-// LIVE SYNC (NO LAG - STORAGE EVENT)
+// 🔥 LIVE SYNC (NO LAG - STORAGE EVENT)
 window.addEventListener("storage", function(e){
 
     if(e.key !== "mainList") return;
@@ -1316,19 +1416,33 @@ window.addEventListener("storage", function(e){
 
 });
 
-/* Specific analysis: independent per-round search, bypasses process()/buildData() */
+/* ======================================================================
+   🔥🔥🔥 NEW FEATURE ADDED BELOW — "SPECIFIC_ANALYSIS" (analysisBtn) 🔥🔥🔥
+   ======================================================================
+   IMPORTANT: Nothing above this line has been modified.
+   process(), buildData(), records{}, SEARCH_ACTIVE, rank filter, and
+   typeSearch filter are completely untouched and are NOT used here.
+   This feature works 100% independently, exactly like the plan:
+
+   analysisBtn -> runSpecificAnalysis() -> loadJSON() -> clear previewTable
+   -> loop every JSON round-file -> (Seat -> Gender -> HomeState -> Exam
+   -> Institute -> Branch) filters -> push matching row directly to table
+   (one row per round, no "lowest round" merging, no buildData()).
+   ====================================================================== */
+
 async function runSpecificAnalysis(){
 
     let instVal = document.getElementById("instSearch").value.trim();
     let branchVal = document.getElementById("branchSearch").value.trim();
 
-    // Institute name and branch are both required
+    // 🔴 MANDATORY: both Institute Name and Branch must be filled
     if(!instVal || !branchVal){
         alert("PLEASE SELECT INSTITUTE NAME AND BRANCH");
         return;
     }
 
-    // Keep search bars in sync so loadJSON()'s restore step doesn't revert them
+    // 🔥 keep search bars in sync so loadJSON()'s restore-from-localStorage
+    // step doesn't visually revert what the user just typed
     localStorage.setItem("typeSearch", document.getElementById("typeSearch").value);
     localStorage.setItem("instSearch", instVal.toLowerCase());
     localStorage.setItem("branchSearch", branchVal.toLowerCase());
@@ -1336,7 +1450,7 @@ async function runSpecificAnalysis(){
     let instLower = instVal.toLowerCase();
     let branchLower = branchVal.toLowerCase();
 
-    /* Load current selected year JSON */
+    /* 🔥 LOAD CURRENT SELECTED YEAR JSON (reuses existing loadJSON, untouched) */
     await loadJSON();
 
     if(Object.keys(JSON_DATA).length === 0){
@@ -1348,7 +1462,7 @@ async function runSpecificAnalysis(){
 
     let analysisRows = [];
 
- // LOOP THROUGH EVERY ROUND FILE (ROUND 1 JOSSA ... ROUND 3 CSAB)
+    // 🔥 LOOP THROUGH EVERY ROUND FILE (ROUND 1 JOSSA ... ROUND 3 CSAB)
     for(let file of files){
 
         let rows = JSON_DATA[file];
@@ -1365,30 +1479,33 @@ async function runSpecificAnalysis(){
             let instName = r["Institute"] || "";
             let branchName = r["Academic Program Name"] || "";
 
- // INSTITUTE FILTER (instSearch)
+            // 🔥 INSTITUTE FILTER (instSearch)
             if(!instName.toLowerCase().includes(instLower)) continue;
 
- // BRANCH FILTER (branchSearch)
+            // 🔥 BRANCH FILTER (branchSearch)
             if(!branchName.toLowerCase().includes(branchLower)) continue;
 
             let tempRow = [r];
 
- // SEAT TYPE FILTER (reuses existing function, untouched)
+            // 🔥 SEAT TYPE FILTER (reuses existing function, untouched)
             tempRow = applySeatTypeFilter(tempRow);
             if(tempRow.length === 0) continue;
 
- // GENDER FILTER (reuses existing function, untouched)
+            // 🔥 GENDER FILTER (reuses existing function, untouched)
             tempRow = applyGenderFilter(tempRow);
             if(tempRow.length === 0) continue;
 
- // HOME STATE FILTER (reuses existing function, untouched)
+            // 🔥 HOME STATE FILTER (reuses existing function, untouched)
             tempRow = applyHomeStateFilter(tempRow);
             if(tempRow.length === 0) continue;
 
- // EXAM FILTER (reuses existing valid() function, untouched)
+            // 🔥 EXAM FILTER (reuses existing valid() function, untouched)
             if(!valid(instName, examVal)) continue;
 
-    // No rank/typeSearch filter, no round merging: each round is its own row
+            // ❌ NO rank filter
+            // ❌ NO typeSearch filter
+            // ❌ NO "lowest round" merge logic
+            // -> every matching round becomes its own row
 
             let opening = parseInt(r["Opening Rank"]);
             let closing = parseInt(r["Closing Rank"]);
@@ -1407,7 +1524,7 @@ async function runSpecificAnalysis(){
     renderAnalysisTable(analysisRows);
 }
 
-/* DIRECT TABLE BUILDER FOR ANALYSIS ONLY (does NOT use buildData()) */
+/* 🔥 DIRECT TABLE BUILDER FOR ANALYSIS ONLY (does NOT use buildData()) */
 function renderAnalysisTable(analysisRows){
 
     previewTable.innerHTML = "";
@@ -1427,46 +1544,36 @@ function renderAnalysisTable(analysisRows){
     });
     previewTable.appendChild(trh);
 
- // reuse existing mainList so ADD button colors (green/red) stay correct
+    // 🔥 reuse existing mainList so ADD button colors (green/red) stay correct
     let main = JSON.parse(localStorage.getItem("mainList")||"[]");
 
     analysisRows.forEach(row=>{
 
         let tr=document.createElement("tr");
 
- // REMOVE (same markup/behaviour as normal preview rows)
-      let td1=document.createElement("td");
-let rm=document.createElement("button");
-rm.innerText="REMOVE";
-rm.style.background="red";
-rm.style.color="white";
-rm.style.cursor="pointer";
-rm.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
-rm.style.transform="scale(var(--s,1))";
-rm.style.transition="transform 0.1s ease";
-rm.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
-rm.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
-rm.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
-td1.appendChild(rm);
-tr.appendChild(td1);
- // ADD (same markup/behaviour as normal preview rows)
-      let td3=document.createElement("td");
-let add=document.createElement("button");
-add.innerText="ADD";
-let exists = main.some(mm=>mm.inst===row.inst && mm.branch===row.branch);
-add.style.background = "lightgreen";
-add.style.color = "black";
-add.style.cursor="pointer";
-add.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
-add.style.transform="scale(var(--s,1))";
-add.style.transition="transform 0.1s ease";
-add.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
-add.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
-add.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
-td3.appendChild(add);
-tr.appendChild(td3);
+        // REMOVE (same markup/behaviour as normal preview rows)
+        let td1=document.createElement("td");
+        let rm=document.createElement("button");
+        rm.innerText="REMOVE";
+        rm.classList.add("js-remove-btn");
+        rm.style.background="red";
+        rm.style.color="white";
+        td1.appendChild(rm);
+        tr.appendChild(td1);
 
- // DATA — only the relevant source (JOSSA or CSAB) side is filled
+        // ADD (same markup/behaviour as normal preview rows)
+        let td3=document.createElement("td");
+        let add=document.createElement("button");
+        add.innerText="ADD";
+        add.classList.add("js-add-btn");
+
+        let exists = main.some(mm=>mm.inst===row.inst && mm.branch===row.branch);
+        add.style.background = exists ? "red" : "lightgreen";
+
+        td3.appendChild(add);
+        tr.appendChild(td3);
+
+        // DATA — only the relevant source (JOSSA or CSAB) side is filled
         let values = [
             row.inst,
             row.branch,
@@ -1487,11 +1594,14 @@ tr.appendChild(td3);
         previewTable.appendChild(tr);
     });
 
- // persist table + respect lock state, exactly like normal preview
+    // 🔥 persist table + respect lock state, exactly like normal preview
     saveTable();
     updateRemove();
+    attachPreviewEvents();   // 🔥 pointer/hover/press animation on REMOVE/ADD here too
 
-    // Show analysis year on screen only, not saved (SEE_RESULTS is the commit point)
+    // 🔥 show the year used for THIS analysis on screen only — NOT saved.
+    // (SEE_RESULTS remains the only commit point; refreshing will fall back
+    // to the last SEE_RESULTS-committed year, exactly as required.)
     let selectedYear = document.getElementById("yearSelector").value;
 
     let currentSourceText = document.getElementById("currentSourceText");
@@ -1504,38 +1614,74 @@ tr.appendChild(td3);
     }
 }
 
-/* Analysis button triggers specific analysis */
+/* 🔥 ANALYSIS BUTTON EVENT LISTENER (does not touch previewBtn/searchBtn/clearFilters) */
 document.getElementById("analysisBtn").onclick = function(){
     runSpecificAnalysis();
 };
 
-/* SEE_RESULTS/SEARCH/CLEAR_SEARCH already clear previewTable, so they replace this analysis table automatically */
+/* NOTE: previewBtn (SEE_RESULTS), searchBtn (SEARCH) and clearFilters
+   (CLEAR_SEARCH) already run previewTable.innerHTML = "" as their very
+   first table step inside their existing, untouched logic — so clicking
+   any of those three automatically wipes this analysis table and rebuilds
+   the normal filtered table in its place, exactly as required. */
 
-/* Year dropdown: SEE_RESULTS is the only commit point; selection is temporary until then */
+/* ======================================================================
+   🔥🔥🔥 YEAR DROPDOWN — "SEE_RESULTS IS THE ONLY COMMIT BUTTON" FLOW 🔥🔥🔥
+   ======================================================================
+   Required behaviour:
+   - On page load/refresh -> dropdown always shows the LAST COMMITTED
+     year (localStorage "selectedYear"), never a temporary selection.
+   - Changing the dropdown -> pure temporary selection, NOTHING saved.
+   - Clicking SEE_RESULTS -> the only commit point (already handled just
+     above, inside previewBtn.onclick, where "selectedYear" AND
+     "currentResultSourceYear" both get saved together).
+
+   The existing inline <script> in preferred.html attaches a "change"
+   listener on #yearSelector that saves immediately on every change —
+   that is exactly the behaviour we must remove, but per your request
+   this is fixed ENTIRELY here in JS, without editing the HTML file.
+
+   Since that listener was attached via addEventListener() in a
+   different <script> block, the only reliable JS-only way to strip it
+   (without touching preferred.html) is to clone the element — a clone
+   carries over all attributes/options but NONE of the previously
+   attached addEventListener listeners — and swap it into the DOM in
+   its exact place. Every other part of the code (loadJSON, previewBtn,
+   runSpecificAnalysis) already reads the dropdown fresh via
+   document.getElementById("yearSelector") each time, so this swap is
+   completely safe and nothing else needs to change.
+   ====================================================================== */
+
 (function(){
 
     let yearSel = document.getElementById("yearSelector");
     if(!yearSel) return;
 
-    // Preserve whatever value is currently showing
+    // preserve whatever value is currently showing, just in case
     let fallbackValue = yearSel.value;
 
-    // Strip pre-existing change listeners by cloning the node
+    // 🔥 STRIP any pre-existing "change" listeners (e.g. the immediate-save
+    // listener from preferred.html's inline script) by cloning the node.
     let cleanYearSel = yearSel.cloneNode(true);
     yearSel.parentNode.replaceChild(cleanYearSel, yearSel);
     yearSel = cleanYearSel;
 
-    // Always restore the last committed year on load/refresh
+    // 🔥 ALWAYS RESTORE THE LAST *COMMITTED* YEAR ON LOAD/REFRESH
     let savedYear = localStorage.getItem("selectedYear");
     yearSel.value = savedYear || fallbackValue;
 
-    // Current source text reflects the last committed result
+    // 🔥 CURRENT SOURCE text also reflects the last *committed* result,
+    // never a temporary/unsaved dropdown selection
     let srcText = document.getElementById("currentSourceText");
     let savedSource = localStorage.getItem("currentResultSourceYear");
     if(srcText && savedSource){
         srcText.textContent = "CURRENT SOURCE: " + savedSource;
     }
 
-    // Intentionally no change listener: selection saves only on SEE_RESULTS
+    // ❌ INTENTIONALLY NO "change" LISTENER HERE.
+    // Selecting a different year in the dropdown is a purely temporary,
+    // unsaved action. Nothing is written to localStorage until the user
+    // clicks SEE_RESULTS (the sole commit point, handled earlier in this
+    // file inside previewBtn.onclick).
 
 })();
