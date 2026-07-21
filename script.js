@@ -116,6 +116,7 @@ row.innerHTML=`
 <td>${item.branch}</td>
 <td contenteditable="true"></td>
 <td><button class="addBtn" ${already?"disabled":""}
+style="cursor:pointer;"
 onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
 onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}"
 onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
@@ -175,6 +176,7 @@ row.innerHTML=`
 <td>${p.branch}</td>
 <td><input type="number" value="${i+1}" min="1"></td>
 <td><button class="deleteBtn" ${isFrozen?"disabled":""}
+style="cursor:pointer;"
 onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
 onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}"
 onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
