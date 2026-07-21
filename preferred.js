@@ -1433,24 +1433,36 @@ function renderAnalysisTable(analysisRows){
         let tr=document.createElement("tr");
 
  // REMOVE (same markup/behaviour as normal preview rows)
-        let td1=document.createElement("td");
-        let rm=document.createElement("button");
-        rm.innerText="REMOVE";
-        rm.style.background="red";
-        rm.style.color="white";
-        td1.appendChild(rm);
-        tr.appendChild(td1);
-
+      let td1=document.createElement("td");
+let rm=document.createElement("button");
+rm.innerText="REMOVE";
+rm.style.background="red";
+rm.style.color="white";
+rm.style.cursor="pointer";
+rm.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
+rm.style.transform="scale(var(--s,1))";
+rm.style.transition="transform 0.1s ease";
+rm.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
+rm.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
+rm.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
+td1.appendChild(rm);
+tr.appendChild(td1);
  // ADD (same markup/behaviour as normal preview rows)
-        let td3=document.createElement("td");
-        let add=document.createElement("button");
-        add.innerText="ADD";
-
-        let exists = main.some(mm=>mm.inst===row.inst && mm.branch===row.branch);
-        add.style.background = exists ? "red" : "lightgreen";
-
-        td3.appendChild(add);
-        tr.appendChild(td3);
+      let td3=document.createElement("td");
+let add=document.createElement("button");
+add.innerText="ADD";
+let exists = main.some(mm=>mm.inst===row.inst && mm.branch===row.branch);
+add.style.background = exists ? "red" : "lightgreen";
+add.style.color="white";
+add.style.cursor="pointer";
+add.style.boxShadow="0 0 10px rgba(0,0,0,0.4)";
+add.style.transform="scale(var(--s,1))";
+add.style.transition="transform 0.1s ease";
+add.setAttribute("onmouseover","if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}");
+add.setAttribute("onmousedown","if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}");
+add.setAttribute("onmouseleave","if(!this.clicked)this.style.setProperty('--s','1')");
+td3.appendChild(add);
+tr.appendChild(td3);
 
  // DATA — only the relevant source (JOSSA or CSAB) side is filled
         let values = [
