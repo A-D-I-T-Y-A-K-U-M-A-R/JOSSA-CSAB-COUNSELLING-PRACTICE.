@@ -54,12 +54,7 @@
 <body id="top">
 
 <!-- Undo button -->
-<button onclick="undoRemove()" id="undoBtn" style="transform:translateY(-50%) scale(var(--s,1));transition:transform 0.1s ease;
-" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}
-" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);
-setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')"
->⬅</
-button>
+<button onclick="undoRemove()" id="undoBtn" style="transform:translateY(-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">⬅</button>
 
 <!-- Header -->
 <h1 class="header">JOSAA/CSAB PRACTICE COUNSELLING CHOICES</h1>
@@ -69,21 +64,18 @@ button>
 <div style="display:flex;justify-content:flex-end;align-items:center;margin-right:150px;gap:80px;">
 
  <a href="https://www.youtube.com/@mr.adityakumarsingh9198/playlists" target="_blank"> 
-<button style="background:yellow;color:black;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:bold;box-shadow:0 0 10px rgba(0,0,0,0.4);
-transform:scale(var(--s,1));transition:transform 0.1s ease;onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}"
-onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}"
-onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button style="background:yellow;color:black;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:bold;box-shadow:0 0 10px rgba(0,0,0,0.4);transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 HOW_TO_USE_IT
 </button>
 </a>
 
 <a href="index.html">
-<button style="padding:10px 20px;background:#800000;color:white;font-weight:bold;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button style="padding:10px 20px;background:#800000;color:white;font-weight:bold;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 GO_TO_CHOICE_FILLING
 </button>
 </a>
 
-<button onclick="document.getElementById('footer').scrollIntoView()" style="background:lime;padding:5px 10px;cursor:pointer;font-weight:bold;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button onclick="document.getElementById('footer').scrollIntoView()" style="background:lime;padding:5px 10px;cursor:pointer;font-weight:bold;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 FAQs
 </button>
 </div>
@@ -98,7 +90,7 @@ OFFICIAL DATA OF VARIOUS YEARS FOR BETTER ANALYSIS.
 </p>
 
 <div style="text-align:center;margin-top:20px;margin-bottom:25px;">
-<select id="yearSelector" style="background:#b8860b;color:white;padding:12px 22px;font-size:16px;font-weight:bold;border:2px solid black;border-radius:8px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.35);transition:all 0.12s ease;outline:none;transform:scale(var(--s,1));" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="yearSelector" style="background:#b8860b;color:white;padding:12px 22px;font-size:16px;font-weight:bold;border:2px solid black;border-radius:8px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.35);transition:all 0.12s ease;outline:none;transform:scale(var(--s,1));" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 <option value="2021">2021</option>
 <option value="2022">2022</option>
 <option value="2023">2023</option>
@@ -135,14 +127,14 @@ localStorage.setItem("selectedYear", this.value);
 <div style="position:relative;height:60px;margin-top:40px;margin-bottom:10px;">
 
 <!-- Gender filter -->
-<select id="genderType" style="position:absolute;left:50%;transform:translateX(-50%) scale(var(--s,1));transition:transform 0.1s ease;padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;font-weight:bold;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="genderType" style="position:absolute;left:50%;transform:translateX(-50%) scale(var(--s,1));transition:transform 0.1s ease;padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;font-weight:bold;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
     
 <option value="Gender-Neutral">Gender-Neutral</option>
 <option value="Female-only (including Supernumerary)">Female-only</option>
 </select>
 
 <!-- Seat type filter -->
-<select id="seatType" style="position:absolute;left:calc(50% - 180px);transform:translateX(-100%) scale(var(--s,1));transition:transform 0.1s ease;padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;font-weight:bold;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="seatType" style="position:absolute;left:calc(50% - 180px);transform:translateX(-100%) scale(var(--s,1));transition:transform 0.1s ease;padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;font-weight:bold;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 <option value="OPEN">OPEN</option>
 <option value="OPEN (PwD)">OPEN (PwD)</option>
 <option value="EWS">EWS</option>
@@ -157,7 +149,7 @@ localStorage.setItem("selectedYear", this.value);
 </select>
 
 <!-- Home state filter -->
-<select id="homeState" style="position:absolute;left:calc(50% + 180px);transform:translateX(0) scale(var(--s,1));transition:transform 0.1s ease;padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;width:160px;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="homeState" style="position:absolute;left:calc(50% + 180px);transform:translateX(0) scale(var(--s,1));transition:transform 0.1s ease;padding:10px;font-weight:bold;background:#046307;color:white;cursor:pointer;width:160px;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 
 <option value="Jharkhand" selected>Jharkhand</option>
 
@@ -211,13 +203,13 @@ localStorage.setItem("selectedYear", this.value);
 <input id="rank" type="number" placeholder="ENTER_CATEGORY_RANK" style="padding:10px;border:none">
 
     
-<button id="addTableBtn"style="position:absolute;top:400px;right:80PX;background:#8A2BE2;color:white;padding:10px 20px;font-weight:bold;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button id="addTableBtn"style="position:absolute;top:400px;right:80PX;background:#8A2BE2;color:white;padding:10px 20px;font-weight:bold;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 ADD_TABLE
 </button>
 <br><br>
 
 <!-- Exam type selector -->
-<select id="exam" style="padding:10px;background:cyan;border:none;font-weight:bold;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="exam" style="padding:10px;background:cyan;border:none;font-weight:bold;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 <option value="">EXAM_TYPE</option>
 <option value="MAINS">JEE MAINS</option>
 <option value="ADVANCE">JEE ADVANCE</option>
@@ -234,7 +226,7 @@ SEE_RESULTS
 <!-- Lock status selector -->
 <div style="display:flex;align-items:center;width:90%;margin:auto;margin-top:20px;position:relative;">
 
-<select id="lockStatus" style="position:absolute;left:0;padding:10px;border:2px solid black;font-weight:bold;background:#8B0000;color:white;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="lockStatus" style="position:absolute;left:0;padding:10px;border:2px solid black;font-weight:bold;background:#8B0000;color:white;cursor:pointer;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 <option value="unlock">UNLOCKED</option>
 <option value="lock">LOCKED</option>
 </select>
@@ -247,9 +239,9 @@ SEE_RESULTS
 <!-- Search UI -->
 <div class="custom-search-row">
 
-<button id="clearFilters" style="cursor:pointer;transform:translate(-100%,-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">CLEAR_SEARCH</button>
+<button id="clearFilters" style="cursor:pointer;transform:translate(-100%,-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">CLEAR_SEARCH</button>
 
-<select id="typeSearch" style="cursor:pointer;transform:translate(-50%,-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<select id="typeSearch" style="cursor:pointer;transform:translate(-50%,-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 <option value="">Institute Type</option>
 <option value="IIT">IIT</option>
 <option value="NIT">NIT</option>
@@ -263,18 +255,18 @@ SEE_RESULTS
 <input list="branchList" id="branchSearch" placeholder="Branch">
 <datalist id="branchList"></datalist>
 
-<button id="searchBtn" style="cursor:pointer;transform:translate(0,-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">SEARCH</button>
+<button id="searchBtn" style="cursor:pointer;transform:translate(0,-50%) scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">SEARCH</button>
 </div>
 
 
 <div style="height:10px;"></div>
 <!-- Specific analysis button -->
 <div class="analysis-row">
-<button id="analysisBtn"style="display:block;margin:20px auto;padding:10px 24px;background:#800000;color:white;border:2px solid black;border-radius:6px;font-weight:bold;cursor:pointer;transition:transform 0.1s ease, box-shadow 0.1s ease;box-shadow:0 3px 6px rgba(0,0,0,0.3);transform:scale(var(--s,1));" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">SPECIFIC_ANALYSIS</button>
+<button id="analysisBtn"style="display:block;margin:20px auto;padding:10px 24px;background:#800000;color:white;border:2px solid black;border-radius:6px;font-weight:bold;cursor:pointer;transition:transform 0.1s ease, box-shadow 0.1s ease;box-shadow:0 3px 6px rgba(0,0,0,0.3);transform:scale(var(--s,1));" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">SPECIFIC_ANALYSIS</button>
 <!--
 <select id="round_analysisBtn" style="display:block;margin:20px auto;padding:10px 24px;background:#800000;color:white;border:2px solid black;border-radius:6px;font-weight:bold;cursor:pointer;transition:transform 0.1s ease, box-shadow 0.1s ease;box-shadow:0 3px 6px rgba(0,0,0,0.3);"
 onmouseover="if(!this.locked && !this.clicked){this.style.transform='scale(1.1)'}"
-onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.transform='scale(0.9)';setTimeout(()=>{this.style.transform='scale(1)';this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.transform='scale(1.1)';},1000)}"
+onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.transform='scale(0.9)';setTimeout(()=>{this.style.transform='scale(1)';this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.transform='scale(1.1)';},100)}"
 onmouseleave="if(!this.clicked)this.style.transform='scale(1)'">
 <option value="">ROUND_ANALYSIS</option>
 <option value="JOSAA">JOSAA</option>
@@ -325,12 +317,12 @@ CURRENT SOURCE: 2025
 <div class="line"></div>
 <div style="text-align:center;margin-top:40px;">
 
-<button id="cleanTableBtn" style="position:fixed;right:2px;bottom:5px;background:#00008B;color:white;padding:6px 14px;cursor:pointer;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.4);font-weight:bold;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button id="cleanTableBtn" style="position:fixed;right:2px;bottom:5px;background:#00008B;color:white;padding:6px 14px;cursor:pointer;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.4);font-weight:bold;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 CLEAN_TABLE
 </button>
     
 <a href="#top">
-<button style="position:fixed;right:2px;bottom:99px;background:darkgreen;color:white;border:none;padding:10px 14px;border-radius:50%;cursor:pointer;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.4);font-weight:bold;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},400)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
+<button style="position:fixed;right:2px;bottom:99px;background:darkgreen;color:white;border:none;padding:10px 14px;border-radius:50%;cursor:pointer;z-index:9999;box-shadow:0 0 10px rgba(0,0,0,0.4);font-weight:bold;transform:scale(var(--s,1));transition:transform 0.1s ease;" onmouseover="if(!this.locked && !this.clicked){this.style.setProperty('--s','1.1')}" onmousedown="if(!this.locked){this.clicked=true;this.locked=true;this.style.setProperty('--s','0.9');setTimeout(()=>{this.style.setProperty('--s','1');this.clicked=false;},100);setTimeout(()=>{this.locked=false;if(this.matches(':hover'))this.style.setProperty('--s','1.1');},100)}" onmouseleave="if(!this.clicked)this.style.setProperty('--s','1')">
 TOP ⬆
 </button>
 </a>
